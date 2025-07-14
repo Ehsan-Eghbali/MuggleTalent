@@ -23,10 +23,10 @@ jobs:
             cd /home/debian/MuggleTalent
             git config --global --add safe.directory /home/debian/MuggleTalent
             sudo git pull origin main
-            docker compose exec app php artisan config:clear
-            docker compose exec app php artisan cache:clear
-            docker compose exec app php artisan route:clear
-            docker compose exec app php artisan view:clear
-            docker compose exec app php artisan migrate --force
+            sudo php artisan config:clear
+            sudo php artisan cache:clear
+            sudo php artisan route:clear
+            sudo php artisan view:clear
+            sudo php artisan migrate --force
             docker compose down
             docker compose up -d --build
