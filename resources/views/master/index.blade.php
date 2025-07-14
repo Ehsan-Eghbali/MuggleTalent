@@ -3,25 +3,15 @@
 <!--begin::Head-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AdminLTE v4 | Dashboard</title>
+    <title>منابع انسانی تپسل</title>
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="./assets/images/logo/img_1.png">
+
     <!--end::Accessibility Meta Tags-->
-    <!--begin::Primary Meta Tags-->
-    <meta name="title" content="AdminLTE v4 | Dashboard" />
-    <meta name="author" content="ColorlibHQ" />
-    <meta
-        name="description"
-        content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance."
-    />
-    <meta
-        name="keywords"
-        content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant"
-    />
-    <!--end::Primary Meta Tags-->
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
@@ -52,7 +42,7 @@
     />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="./css/adminlte.css" />
+    <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
     <link
@@ -142,39 +132,27 @@
                 >
                     <li class="nav-item menu-open">
                         <a href="#" class="nav-link active">
-                            <i class="nav-icon bi bi-speedometer"></i>
+                            <i class="nav-icon bi bi-people"></i>
                             <p>
-                                Dashboard
+                                کارمندان
                                 <i class="nav-arrow bi bi-chevron-right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="./index.html" class="nav-link active">
+                                <a href="{{route("employees.index")}}" class="nav-link active">
                                     <i class="nav-icon bi bi-circle"></i>
-                                    <p>Dashboard v1</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./index2.html" class="nav-link">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p>Dashboard v2</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./index3.html" class="nav-link">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p>Dashboard v3</p>
+                                    <p>لیست کارمندان</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="./generate/theme.html" class="nav-link">
-                            <i class="nav-icon bi bi-palette"></i>
-                            <p>Theme Generate</p>
-                        </a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="./generate/theme.html" class="nav-link">--}}
+{{--                            <i class="nav-icon bi bi-palette"></i>--}}
+{{--                            <p>Theme Generate</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                 </ul>
                 <!--end::Sidebar Menu-->
             </nav>
@@ -210,9 +188,8 @@
                 <!--begin::Row-->
                 <div class="row">
                     <!--begin::Col-->
-                    <div class="col-lg-3 col-6">
+                        @yield("content")
 
-                    </div>
                 </div>
                 <!--end::Row-->
             </div>
@@ -254,7 +231,7 @@
     crossorigin="anonymous"
 ></script>
 <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-<script src="./js/adminlte.js"></script>
+<script src="{{ asset('js/adminlte.js') }}"></script>
 <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 </body>
 <!--end::Body-->
