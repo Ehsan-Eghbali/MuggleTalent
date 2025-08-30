@@ -1,0 +1,124 @@
+.welcome-title {
+    text-align: center;
+    margin-top: 5rem;
+    font-weight: bold;
+}
+/* public/css/dashboard.css */
+
+/* public/css/dashboard.css */
+
+/* ... استایل‌های قبلی ... */
+
+/* ---------------------------------- */
+/* استایل‌های داشبورد جدید (جعبه ابزار) */
+/* ---------------------------------- */
+.dashboard-main-content {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.dashboard-tools-section {
+    flex-grow: 1;
+}
+
+.dashboard-side-widgets {
+    width: 300px; /* عرض ثابت برای ویجت‌های کناری */
+    flex-shrink: 0;
+}
+
+.tool-categories {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap; /* برای واکنش‌گرا بودن */
+}
+
+.category-tab {
+    background-color: #e3eafc;
+    color: #4a67d4;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    white-space: nowrap; /* جلوگیری از شکستن متن */
+}
+
+.category-tab:hover {
+    background-color: #d1dcf9;
+}
+
+.category-tab.active {
+    background-color: #4a67d4;
+    color: white;
+    box-shadow: 0 4px 8px rgba(74, 103, 212, 0.3);
+}
+
+.tools-grid-section {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tools-grid-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1.5rem;
+}
+
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #f8faff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.tool-card:hover {
+    background-color: #eef3ff;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tool-card .tool-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    width: 50px; /* برای یکسان سازی اندازه آیکون‌ها */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* استایل‌های اختصاصی برای آیکون‌های تصویری (مثل واتساپ) */
+.tool-card .tool-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* حفظ نسبت تصویر */
+}
+
+.tool-card .tool-name {
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: bold;
+}

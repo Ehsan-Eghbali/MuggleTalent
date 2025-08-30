@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('educations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id'); // ارتباط با جدول employees
-            $table->string('degree'); // مدرک تحصیلی
-            $table->string('major'); // رشته تحصیلی
-            $table->string('university'); // دانشگاه
-            $table->timestamps(); // زمان ایجاد و به روز رسانی
-
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->string('degree')->nullable();
+            $table->string('major')->nullable();
+            $table->string('university')->nullable();
         });
     }
 

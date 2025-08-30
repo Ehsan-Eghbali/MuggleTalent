@@ -13,21 +13,23 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_number'); // شماره پرسنلی
-            $table->string('first_name'); // نام اصلی
-            $table->string('last_name'); // نام خانوادگی
-            $table->string('full_name'); // نام و نام خانوادگی
-            $table->string('position'); // سمت
-            $table->string('team'); // تیم
-            $table->string('department'); // واحد
-            $table->string('manager'); // مدیر
-            $table->string('job_level'); // رده شغلی
-            $table->enum('contract_type', ['full_time', 'part_time']); // نوع قرارداد
-            $table->enum('work_status', ['on_site', 'remote', 'hybrid']); // وضعیت حضور
-            $table->enum('formality', ['formal', 'informal']); // رسمی / غیررسمی
-            $table->string('phone_number'); // شماره تماس
-            $table->string('email')->nullable(); // ایمیل شخصی
-            $table->string('organization_email')->nullable(); // ایمیل سازمانی
+            $table->string('employee_number')->unique();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('full_name');
+            $table->string('nickname')->nullable();
+            $table->string('position_chart')->nullable();
+            $table->string('team')->nullable();
+            $table->string('department')->nullable();
+            $table->string('direct_manager')->nullable();
+            $table->string('job_level')->nullable();
+            $table->enum('contract_type', ['دورکاری', 'کارآموزی', 'آزمایشی', 'تمام وقت', 'پاره وقت'])->nullable();
+            $table->enum('work_status', ['حضوری', 'دورکار', 'هیبریدی'])->nullable();
+            $table->enum('formality', ['رسمی', 'غیررسمی'])->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('organization_email')->nullable();
+            $table->enum('gender', ['مرد', 'زن'])->nullable();
             $table->timestamps();
         });
     }

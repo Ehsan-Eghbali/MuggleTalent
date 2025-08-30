@@ -1,65 +1,42 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>صفحه ورود</title>
+@extends('layouts.app')
 
-    <!-- استفاده از Tailwind CSS از CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+{{-- این دستور، کلاس "login-body" را به تگ <body> در لایوت اصلی منتقل می‌کند --}}
+@section('body_class', 'login-body')
 
-    <!-- فونت‌ها -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-</head>
-<body class="font-roboto bg-gradient-to-r from-blue-500 to-teal-500 min-h-screen flex items-center justify-center">
-
-<div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
-    <div class="text-center">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-4">ورود به حساب</h2>
-        <p class="text-gray-600">لطفا ایمیل و رمز عبور خود را وارد کنید</p>
-    </div>
-
-    <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-6">
-        @csrf
-
-        <!-- ایمیل -->
-        <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">ایمیل</label>
-            <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" autofocus>
+@section('content')
+    <div class="login-container">
+        <div class="login-header">
+            <img src="{{ asset('images/logo.png') }}" alt="لوگو سامانه" style="width:120px; height:auto; margin-bottom:10px;">
+            <h1>سامانه جامع منابع انسانی</h1>
+            <p>پگاه داده کاوان شریف</p>
         </div>
-
-        <!-- رمز عبور -->
-        <div class="mb-4">
-            <label for="password" class="block text-sm font-medium text-gray-700">رمز عبور</label>
-            <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        </div>
-
-        @if ($errors->any())
-            <div class="text-red-500 text-sm mb-4">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        @if (session('error'))
+            <div class="alert-danger">{{ session('error') }}</div>
         @endif
-
-        <!-- دکمه ورود -->
-        <div>
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                ورود
-            </button>
+        <form action="#" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="email">ایمیل</label>
+                <input type="email" id="email" name="email" value="e.m.mghbl@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">رمز عبور</label>
+                <input type="password" id="password" name="password" value="******" required>
+            </div>
+            <div class="form-options">
+                <div class="remember-me">
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">مرا به خاطر بسپار</label>
+                </div>
+            </div>
+            <button type="submit" class="btn">ورود</button>
+            <div class="form-options" style="margin-top: 1rem; justify-content: center;">
+                <a href="#">رمز عبور خود را فراموش کرده‌اید؟</a>
+            </div>
+        </form>
+        <div class="login-footer">
+            <p>حسابی ندارید؟ از واحد منابع انسانی لینک بگیرید.</p>
+            <p>© 1404 منابع انسانی پایگاه داده کاوان شریف</p>
         </div>
-    </form>
-
-    <div class="mt-6 text-center">
-        <p class="text-sm text-gray-600">
-            حساب کاربری ندارید؟
-            <a href="{{ route('register') }}" class="text-blue-500 hover:text-blue-700">ثبت‌نام کنید</a>
-        </p>
     </div>
-</div>
-
-</body>
-</html>
+@endsection

@@ -22,21 +22,25 @@ class StoreemployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_number' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'full_name' => 'required|string|max:255',
-            'position' => 'nullable|string',
-            'team' => 'nullable|string',
-            'department' => 'nullable|string',
-            'manager' => 'nullable|string',
-            'job_level' => 'nullable|string',
-            'contract_type' => 'required|in:full_time,part_time',
-            'work_status' => 'required|in:on_site,remote,hybrid',
-            'formality' => 'required|in:formal,informal',
-            'phone_number' => 'required|string',
-            'email' => 'nullable|email',
-            'organization_email' => 'nullable|email',
+            'employee_number'     => 'required|string|max:255',
+            'first_name'          => 'required|string|max:255',
+            'last_name'           => 'required|string|max:255',
+            'full_name'           => 'required|string|max:255',
+            'nickname'            => 'nullable|string|max:255',
+            'position'            => 'nullable|string|max:255',
+            'team'                => 'nullable|string|max:255',
+            'department'          => 'nullable|string|max:255',
+            'manager'             => 'nullable|string|max:255',
+            'job_level'           => 'nullable|string|max:255',
+
+            'contract_type'       => 'required|in:دورکاری,کارآموزی,آزمایشی,تمام وقت,پاره وقت',
+            'cooperation_status'  => 'required|in:تمام وقت,پاره وقت',
+            'work_status'         => 'required|in:حضوری,دورکار,هیبریدی',
+            'formality'           => 'required|in:رسمی,غیررسمی',
+
+            'phone_number'        => 'required|string|max:20',
+            'email'               => 'nullable|email|max:255',
+            'organization_email'  => 'nullable|email|max:255',
         ];
     }
 

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id'); // ارتباط با جدول employees
-            $table->enum('insurance_type', ['basic', 'complementary'])->nullable(); // نوع بیمه
-            $table->string('insurance_plan')->nullable(); // طرح بیمه
-            $table->boolean('has_dependents')->default(false); // نفرات تحت تکفل
-            $table->timestamps(); // زمان ایجاد و به روز رسانی
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->string('insurance_position')->nullable();
+            $table->string('insurance_code')->nullable();
+            $table->string('insurance_number')->nullable();
+            $table->enum('has_dependents', ['دارد', 'ندارد'])->nullable();
+            $table->timestamps();
         });
     }
 

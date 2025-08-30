@@ -12,14 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('military', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('employee_id'); // ارتباط با جدول employees
-            $table->enum('military_status', ['completed', 'not_completed'])->nullable(); // وضعیت سربازی
-            $table->date('start_date')->nullable(); // تاریخ شروع سربازی
-            $table->date('end_date')->nullable(); // تاریخ اتمام سربازی
-            $table->timestamps(); // زمان ایجاد و به روز رسانی
-
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->enum('military_status', ['انجام شده', 'انجام نشده', 'معاف'])->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
         });
     }
 
