@@ -124,4 +124,38 @@ Route::get('/letters_archive', function () {
     return view('dashboard.archive', ['letters' => $archived_letters]);
 });
 
+// routes/web.php
+
+// روت برای نمایش صفحه مدیریت نقش‌ها
+Route::get('/roles', function () {
+    // داده‌های فیک برای نقش‌ها
+    $roles = [
+        ['id' => 1, 'name' => 'کارمند'],
+        ['id' => 2, 'name' => 'کارشناس منابع انسانی'],
+        ['id' => 3, 'name' => 'مدیر'],
+        ['id' => 4, 'name' => 'ادمین کل'],
+    ];
+
+    // لیست تمام دسترسی‌های ممکن در سیستم
+    $permissions = [
+        'لیست پرسنلی' => ['view', 'create', 'edit', 'delete'],
+        'صدور آنلاین نامه' => ['view', 'create'],
+        'آرشیو نامه‌ها' => ['view', 'delete'],
+        'مدیریت پنل' => ['view'],
+    ];
+
+    // لیست کاربران برای نمایش
+    $users = [
+        ['id' => 1, 'name' => 'پوریا نیک وند', 'role' => 'ادمین کل'],
+        ['id' => 2, 'name' => 'سبحان فروغی', 'role' => 'کارشناس منابع انسانی'],
+        ['id' => 3, 'name' => 'سید امین احمدی', 'role' => 'کارمند'],
+    ];
+
+    return view('dashboard.roles.index', [
+        'roles' => $roles,
+        'permissions' => $permissions,
+        'users' => $users
+    ]);
+});
+
 require __DIR__.'/auth.php';

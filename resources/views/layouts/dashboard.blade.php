@@ -35,6 +35,16 @@
                         <li><a href="#"> تاریخچه حقوق و دستمزد</a></li>
                     </ul>
                 </li>
+                <li class="has-submenu open active">
+                    <a href="#"><i class="fas fa-screwdriver-wrench menu-icon"></i><span>مدیریت پنل </span><i
+                            class="fas fa-chevron-down toggle-icon"></i></a>
+                    <ul class="sidebar-submenu">
+                        <li class="active"><a href="/register"> ثبت نام کاربر سامانه</a></li>
+                        <li><a href="#"> نقش ها</a></li>
+                        <li><a href="#"> افزودن واحد </a></li>
+                        <li><a href="#"> افزودن تیم </a></li>
+                    </ul>
+                </li>
             </ul>
         </aside>
         <div class="main-wrapper">
