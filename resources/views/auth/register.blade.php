@@ -10,13 +10,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- فونت‌ها -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap">
 </head>
 <body class="font-roboto bg-gradient-to-r from-blue-500 to-teal-500 min-h-screen flex items-center justify-center">
 
 <div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
     <div class="text-center">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-4">ثبت‌نام در حساب</h2>
+        <h2 class="text-3xl font-semibold text-gray-800 mb-4"> ثبت نام کاربر سامانه</h2>
         <p class="text-gray-600">لطفا اطلاعات خود را وارد کنید</p>
     </div>
 

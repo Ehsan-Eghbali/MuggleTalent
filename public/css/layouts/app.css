@@ -4,3 +4,9 @@ body {
     background-color: #f8f9fa;
     direction: rtl;
 }
+button,
+input,
+select,
+textarea {
+    font-family: inherit; /* این دستور فونت را از والد به ارث می‌برد */
+}

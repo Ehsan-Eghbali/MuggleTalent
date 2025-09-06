@@ -1,0 +1,42 @@
+.teams-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* دو ستون با نسبت عرض 1 به 2 */
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+.card-header {
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    border-bottom: 1px solid #e2e8f0;
+}
+.card-body {
+    padding: 1.5rem;
+}
+
+/* استایل فرم */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #334155;
+}
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.full-width {
+    width: 100%;
+}

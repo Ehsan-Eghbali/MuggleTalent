@@ -41,7 +41,7 @@ Route::get('/personnel-list', function () {
 
 // این روت جدید برای نمایش پروفایل کارمندان است
 Route::get('/personnel/{id}', function ($id) {
-    // در اینجا می‌توانید بر اساس ID، داده‌های واقعی کارمند را از دیتابیس بگیرید
+    // داده‌های فیک کامل‌تر برای پروفایل
     $employee = [
         'id' => $id,
         'full_name' => 'پوریا نیک وند',
@@ -57,6 +57,20 @@ Route::get('/personnel/{id}', function ($id) {
         'last_degree' => 'کارشناسی ارشد',
         'employment_status' => 'فعال',
         'employment_duration' => '۱۰ ماه',
+        'employment_info' => [
+            'department' => 'فنی و مهندسی',
+            'team' => 'تیم بک‌اند',
+            'contract_type' => 'تمام وقت',
+            'hire_date' => '۱۴۰۳/۰۷/۱۵',
+        ],
+        // بخش جدید برای سوابق
+        'work_history' => [
+            'notes' => 'این کارمند در پروژه X عملکرد بسیار خوبی داشته و پیشنهاد می‌شود برای پاداش در نظر گرفته شود.',
+            'attachments' => [
+                ['name' => 'تقدیرنامه_پروژه_X.pdf', 'size' => '۱.۲ مگابایت', 'date' => '۱۴۰۴/۰۳/۱۲'],
+                ['name' => 'گزارش_عملکرد_فصلی.docx', 'size' => '۴۵۰ کیلوبایت', 'date' => '۱۴۰۴/۰۱/۱۰'],
+            ]
+        ]
     ];
     return view('dashboard.personnel-profile', ['employee' => $employee]);
 });
@@ -156,6 +170,113 @@ Route::get('/roles', function () {
         'permissions' => $permissions,
         'users' => $users
     ]);
+});
+
+// routes/web.php
+
+// روت برای نمایش صفحه مدیریت واحدها
+Route::get('/departments', function () {
+    // داده‌های فیک برای واحدها
+    $departments = [
+        ['id' => 1, 'name' => 'فنی و مهندسی'],
+        ['id' => 2, 'name' => 'منابع انسانی'],
+        ['id' => 3, 'name' => 'مالی و اداری'],
+        ['id' => 4, 'name' => 'فروش و بازاریابی'],
+    ];
+
+    return view('dashboard.departments.index', ['departments' => $departments]);
+});
+
+// routes/web.php
+
+// روت برای نمایش صفحه مدیریت تیم‌ها
+Route::get('/teams', function () {
+    // داده‌های فیک برای تیم‌ها
+    $teams = [
+        ['id' => 1, 'name' => 'تیم فرانت‌اند'],
+        ['id' => 2, 'name' => 'تیم بک‌اند'],
+        ['id' => 3, 'name' => 'تیم دواپس (DevOps)'],
+        ['id' => 4, 'name' => 'تیم محصول'],
+    ];
+
+    return view('dashboard.teams.index', ['teams' => $teams]);
+});
+
+// routes/web.php
+
+// روت برای نمایش لیست حقوق و دستمزد
+Route::get('/payrolls', function () {
+    // داده‌های فیک برای لیست حقوق
+    $payrolls = [
+        [
+            'id' => 1,
+            'personnel_name' => 'پوریا نیک وند',
+            'base_salary' => '۱۵۰,۰۰۰,۰۰۰',
+            'seniority' => '۵,۰۰۰,۰۰۰',
+            'housing' => '۱۰,۰۰۰,۰۰۰',
+            'marriage' => '۰',
+            'children' => '۰',
+            'responsibility' => '۲۰,۰۰۰,۰۰۰',
+            'food' => '۳,۰۰۰,۰۰۰',
+            'informal' => '۱۰,۰۰۰,۰۰۰',
+             'level' => 'سینیور ۱', // فیلد جدید
+        ],
+        [
+            'id' => 2,
+            'personnel_name' => 'سبحان فروغی',
+            'base_salary' => '۱۲۰,۰۰۰,۰۰۰',
+            'seniority' => '۳,۰۰۰,۰۰۰',
+            'housing' => '۱۰,۰۰۰,۰۰۰',
+            'marriage' => '۵,۰۰۰,۰۰۰',
+            'children' => '۲,۵۰۰,۰۰۰',
+            'responsibility' => '۰',
+            'food' => '۳,۰۰۰,۰۰۰',
+            'informal' => '۵,۰۰۰,۰۰۰',
+             'level' => 'جونیور ۳', // فیلد جدید
+        ],
+        [
+            'id' => 3,
+            'personnel_name' => 'سید امین احمدی',
+            'base_salary' => '۱۴۰,۰۰۰,۰۰۰',
+            'seniority' => '۴,۵۰۰,۰۰۰',
+            'housing' => '۱۰,۰۰۰,۰۰۰',
+            'marriage' => '۰',
+            'children' => '۰',
+            'responsibility' => '۱۵,۰۰۰,۰۰۰',
+            'food' => '۳,۰۰۰,۰۰۰',
+            'informal' => '۸,۰۰۰,۰۰۰',
+             'level' => 'میدلول ۲', // فیلد جدید
+        ],
+    ];
+
+    return view('dashboard.payrolls.index', ['payrolls' => $payrolls]);
+});
+
+// routes/web.php
+
+// روت برای نمایش تاریخچه تغییرات حقوق
+Route::get('/payroll-history', function () {
+    // داده‌های فیک برای تاریخچه
+    $history_logs = [
+        [
+            'id' => 1,
+            'date' => '۱۴۰۴/۰۵/۱۰',
+            'personnel_name' => 'پوریا نیک وند',
+            'change_type' => 'تغییر رده شغلی',
+            'details' => 'ارتقا به سطح کارشناس ارشد.',
+            'user' => 'مدیر سیستم'
+        ],
+        [
+            'id' => 2,
+            'date' => '۱۴۰۴/۰۴/۲۰',
+            'personnel_name' => 'سبحان فروغی',
+            'change_type' => 'تغییر حقوق',
+            'details' => 'حقوق پایه از ۱۲۰,۰۰۰,۰۰۰ به ۱۴۰,۰۰۰,۰۰۰ تغییر یافت.',
+            'user' => 'مدیر منابع انسانی'
+        ],
+    ];
+
+    return view('dashboard.payrolls.history', ['logs' => $history_logs]);
 });
 
 require __DIR__.'/auth.php';

@@ -12,3 +12,6 @@
 @import "./pages/dashboard/issue-letter.css";
 @import "./pages/dashboard/archive.css";
 @import "./pages/dashboard/roles.css";
+@import "./pages/dashboard/departments.css";
+@import "./pages/dashboard/teams.css";
+@import "./pages/dashboard/payrolls.css";
