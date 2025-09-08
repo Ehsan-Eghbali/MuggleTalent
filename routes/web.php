@@ -41,36 +41,79 @@ Route::get('/personnel-list', function () {
 
 // این روت جدید برای نمایش پروفایل کارمندان است
 Route::get('/personnel/{id}', function ($id) {
-    // داده‌های فیک کامل‌تر برای پروفایل
+    // داده‌های فیک کامل برای پروفایل
     $employee = [
         'id' => $id,
         'full_name' => 'پوریا نیک وند',
         'title' => 'برنامه نویس تحلیل داده',
         'email' => 'p.nikvand@tapsell.ir',
-        'phone' => '+۹۸۹۱۲۳۴۵۶۷۸۹',
-        'national_code' => '۱۴۳۵۴۶۷۵۶۸',
+        'phone' => '۰۹۱۲۳۴۵۶۷۸۹',
+        'national_code' => '۰۰۱۲۳۴۵۶۷۸',
+        'birth_cert_number' => '۱۲۳۴۵',
+        'marital_status' => 'متاهل',
+        'personal_email' => 'pouria.nikvand@example.com',
+        'father_name' => 'محمد',
+        'mother_name' => 'زهرا',
         'birth_date' => '۱۳۷۰/۰۲/۰۱',
-        'family_name' => 'نیک وند',
         'birth_place' => 'تهران',
-        'birth_cert_number' => '۳۴۵۶۷',
-        'college_name' => 'دانشگاه صنعتی شریف',
-        'last_degree' => 'کارشناسی ارشد',
+        'military_status' => 'پایان خدمت',
+        'marriage_date' => '۱۳۹۸/۱۱/۲۲',
+        'home_phone' => '۰۲۱-۸۷۶۵۴۳۲۱',
+        'telegram_id' => '@pouria_nik',
+        'address' => 'تهران، میدان آزادی، خیابان آزادی، پلاک ۱',
+        'postal_code' => '۱۴۵۹۹۱۲۳۴۵',
+        'emergency_contact' => '۰۹۳۵۱۲۳۴۵۶۷',
+        'gender' => 'مرد',
+        'field_of_study' => 'مهندسی نرم‌افزار',
+        'degree' => 'فوق لیسانس',
         'employment_status' => 'فعال',
         'employment_duration' => '۱۰ ماه',
+
         'employment_info' => [
             'department' => 'فنی و مهندسی',
             'team' => 'تیم بک‌اند',
-            'contract_type' => 'تمام وقت',
+            'personnel_code' => '۹۴۰۴۰',
+            'job_title' => 'برنامه نویس ارشد',
+            'insurance_title' => 'کارشناس نرم‌افزار',
+            'skill_level' => 'سینیور ۱',
+            'insurance_job_code' => '۱۲۳۴۵۶',
+            'cooperation_type' => 'تمام وقت',
+            'employment_status' => 'فعال',
+            'direct_manager' => 'مدیر فنی',
+            'work_model' => 'هیبرید',
+            'contract_type' => 'رسمی',
+            'nda_type' => 'فنی',
             'hire_date' => '۱۴۰۳/۰۷/۱۵',
+            'termination_date' => '',
+            'termination_reason' => '',
         ],
-        // بخش جدید برای سوابق
+
+        // این بخش اصلاح شد
+        'financial_info' => [
+            'official_bank_name' => 'ملت',
+            'official_card_number' => '۶۱۰۴-۳۳۷۸-۱۲۳۴-۵۶۷۸',
+            'official_account_number' => '۱۲۳۴۵۶۷۸۹۰',
+            'official_iban' => 'IR123456789012345678901234',
+            'unofficial_bank_name' => 'سامان',
+            'unofficial_card_number' => '۶۲۱۹-۸۶۱۰-۱۲۳۴-۵۶۷۸',
+            'unofficial_account_number' => '۰۹۸۷۶۵۴۳۲۱',
+            'unofficial_iban' => 'IR098765432109876543210987',
+        ],
+
         'work_history' => [
             'notes' => 'این کارمند در پروژه X عملکرد بسیار خوبی داشته و پیشنهاد می‌شود برای پاداش در نظر گرفته شود.',
             'attachments' => [
                 ['name' => 'تقدیرنامه_پروژه_X.pdf', 'size' => '۱.۲ مگابایت', 'date' => '۱۴۰۴/۰۳/۱۲'],
                 ['name' => 'گزارش_عملکرد_فصلی.docx', 'size' => '۴۵۰ کیلوبایت', 'date' => '۱۴۰۴/۰۱/۱۰'],
             ]
-        ]
+        ],
+        'training_records' => [
+            'notes' => 'کارمند در دوره‌های برنامه‌نویسی پیشرفته شرکت کرده و مدرک مربوطه را دریافت نموده است.',
+            'attachments' => [
+                ['name' => 'مدرک_دوره_لاراول.pdf', 'size' => '۲.۵ مگابایت', 'date' => '۱۴۰۴/۰۴/۲۱'],
+                ['name' => 'گواهی_شرکت_در_سمینار.jpg', 'size' => '۸۰۰ کیلوبایت', 'date' => '۱۴۰۴/۰۲/۱۱'],
+            ]
+        ],
     ];
     return view('dashboard.personnel-profile', ['employee' => $employee]);
 });
@@ -219,7 +262,7 @@ Route::get('/payrolls', function () {
             'responsibility' => '۲۰,۰۰۰,۰۰۰',
             'food' => '۳,۰۰۰,۰۰۰',
             'informal' => '۱۰,۰۰۰,۰۰۰',
-             'level' => 'سینیور ۱', // فیلد جدید
+            'level' => 'سینیور ۱', // فیلد جدید
         ],
         [
             'id' => 2,
@@ -232,7 +275,7 @@ Route::get('/payrolls', function () {
             'responsibility' => '۰',
             'food' => '۳,۰۰۰,۰۰۰',
             'informal' => '۵,۰۰۰,۰۰۰',
-             'level' => 'جونیور ۳', // فیلد جدید
+            'level' => 'جونیور ۳', // فیلد جدید
         ],
         [
             'id' => 3,
@@ -245,7 +288,7 @@ Route::get('/payrolls', function () {
             'responsibility' => '۱۵,۰۰۰,۰۰۰',
             'food' => '۳,۰۰۰,۰۰۰',
             'informal' => '۸,۰۰۰,۰۰۰',
-             'level' => 'میدلول ۲', // فیلد جدید
+            'level' => 'میدلول ۲', // فیلد جدید
         ],
     ];
 
@@ -279,4 +322,4 @@ Route::get('/payroll-history', function () {
     return view('dashboard.payrolls.history', ['logs' => $history_logs]);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

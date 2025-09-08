@@ -204,3 +204,12 @@
     display: flex;
     gap: 1rem;
 }
+/* برای فیلدهایی که باید تمام عرض گرید را بگیرند */
+.form-group.grid-full-width {
+    grid-column: 1 / -1;
+}
+
+/* کلاس کمکی برای مخفی کردن فیلدها با جاوااسکریپت */
+.hidden-field {
+    display: none;
+}
