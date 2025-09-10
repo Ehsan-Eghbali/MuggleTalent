@@ -25,7 +25,7 @@
             <option value="اداری">مالی</option>
         </select>
     </div>
-    
+
     {{-- جدول داده‌ها --}}
     <table class="data-table">
         <thead>
@@ -42,9 +42,10 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($personnel_list as $person)
+            @foreach ($employees as $person)
+                @dd($employees)
             <tr>
-                <td>{{ $person['code'] }}</td>
+                <td>{{ $person['employee_number'] }}</td>
                 <td>{{ $person['name'] }}</td>
                 <td>{{ $person['family'] }}</td>
                 <td>{{ $person['email'] }}</td>
@@ -61,7 +62,7 @@
             @endforeach
         </tbody>
     </table>
-    
+
     <div class="pagination">
         <a href="#">&laquo;</a>
         <a href="#" class="active">1</a>
@@ -76,7 +77,13 @@
     <div class="modal-content">
         <span class="modal-close" id="close-modal-btn">&times;</span>
         <h2>افزودن همکار جدید</h2>
-        <form action="#" method="POST">
+        <form action="{{route("employees.store")}}" method="POST">
+            @method("POST")
+            @csrf
+            <div class="modal-form-group">
+                <label for="employee_name">شماره پرسنلی</label>
+                <input type="number" id="employee_number" name="employee_number" required>
+            </div>
             <div class="modal-form-group">
                 <label for="employee_name">نام</label>
                 <input type="text" id="employee_name" name="employee_name" required>
@@ -120,7 +127,7 @@
         event.preventDefault();
         modal.style.display = 'flex';
     });
-    
+
     closeBtn.addEventListener('click', function() {
         modal.style.display = 'none';
     });

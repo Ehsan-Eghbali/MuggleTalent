@@ -28,16 +28,6 @@ Route::get('/dashboard', function () {
     return view('dashboard.index');
 });
 
-// این روت برای نمایش لیست همکاران است و داده‌ها را به ویو می‌فرستد.
-Route::get('/personnel-list', function () {
-    $personnel = [
-        ['id' => '۰۰۰۱', 'code' => '۹۴۰۴۰', 'name' => 'سبحان', 'family' => 'فروغی دهنوی', 'email' => 'soleimanforoughi@gmail.com', 'birth_date' => 'نامشخص', 'job' => 'نامشخص', 'status' => 'نامشخص', 'phone' => '۰۹۱۳۶۵۶۵۸۴۶'],
-        ['id' => '۰۰۰۲', 'code' => '۰۰۴۵', 'name' => 'سید امین', 'family' => 'احمدی علوی آبادی', 'email' => 'aminorangereev@gmail.com', 'birth_date' => 'نامشخص', 'job' => 'نامشخص', 'status' => 'در حال همکاری', 'phone' => '۰۹۴۵۴۷۵۲۴۵'],
-        ['id' => '۰۰۰۳', 'code' => '۰۰۶۵', 'name' => 'سید عباس', 'family' => 'حسینی', 'email' => 'a.hosseini.s.s@gmail.com', 'birth_date' => 'نامشخص', 'job' => 'نامشخص', 'status' => 'پایان همکاری', 'phone' => '۰۹۵۵۶۴۸۹۳۹۰'],
-        ['id' => '۰۰۰۴', 'code' => '۰۰۵۲', 'name' => 'حسین', 'family' => 'امیرخانی', 'email' => 'amirkhani@qpm.ac.ir', 'birth_date' => '۳۹۴-۰۸-۲۷', 'job' => 'فنی', 'status' => 'پایان همکاری', 'phone' => '۰۹۳۲۱۴۲۱۴۲'],
-    ];
-    return view('dashboard.personnel-list', ['personnel_list' => $personnel]);
-});
 
 // این روت جدید برای نمایش پروفایل کارمندان است
 Route::get('/personnel/{id}', function ($id) {

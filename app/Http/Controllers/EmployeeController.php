@@ -15,7 +15,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employees::all();
-        return view('employees.index', compact('employees'));
+        return view('dashboard.employees_list', compact('employees'));
     }
 
     /**
@@ -31,10 +31,11 @@ class EmployeeController extends Controller
      */
     public function store(StoreemployeeRequest $request)
     {
+        dd($request->all());
         DB::transaction(function () use ($request) {
             $employee = Employees::create([
                 'employee_number'    => $request->employee_number,
-                'first_name'         => $request->first_name,
+                'first_name'         => $request->employee_name,
                 'last_name'          => $request->last_name,
                 'full_name'          => $request->full_name,
                 'nickname'           => $request->nickname,

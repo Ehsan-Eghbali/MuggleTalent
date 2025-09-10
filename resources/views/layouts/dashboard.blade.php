@@ -17,7 +17,7 @@
             <li class="has-submenu {{ request()->is('personnel-list*') || request()->is('personnel/*') ? 'open active' : '' }}">
                 <a href="#"><i class="fas fa-list-alt menu-icon"></i><span>لیست پرسنلی</span><i class="fas fa-chevron-down toggle-icon"></i></a>
                 <ul class="sidebar-submenu">
-                    <li class="{{ request()->is('personnel-list') ? 'active' : '' }}"><a href="/personnel-list">مشاهده لیست همکاران</a></li>
+                    <li class="{{ request()->is('personnel-list') ? 'active' : '' }}"><a href="{{route('employees.index')}}">مشاهده لیست همکاران</a></li>
                 </ul>
             </li>
 
