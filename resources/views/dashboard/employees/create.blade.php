@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             <label>تیم</label>
-                            <input type="text" name="team" required>
+                            <input value="{{old("team")}}" type="text" name="team" required>
                         </div>
                         <div class="form-group">
                             <label>واحد</label>

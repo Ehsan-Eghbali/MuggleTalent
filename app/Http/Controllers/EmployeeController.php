@@ -31,7 +31,6 @@ class EmployeeController extends Controller
      */
     public function store(StoreemployeeRequest $request)
     {
-       dd($request->all());
         DB::transaction(function () use ($request) {
             $employee = Employees::create([
                 'employee_number'    => $request->employee_number,
