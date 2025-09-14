@@ -1,145 +1,79 @@
 @extends('layouts.dashboard')
 
+@section('page_styles')
+    <link rel="stylesheet" href="{{ asset('css/pages/dashboard/personnel-list.css') }}">
+@endsection
+
 @section('dashboard_content')
 <div class="page-header">
     <h1><i class="fas fa-users-cog page-icon"></i> مشاهده لیست همکاران</h1>
-    <a href="#" class="btn-primary" id="add-employee-btn"><i class="fas fa-plus-circle"></i> افزودن همکار جدید</a>
+    {{-- این دکمه به روت employees.create لینک داده شده است --}}
+    <a href="{{ route('employees.create') }}" class="btn-primary"><i class="fas fa-plus-circle"></i> افزودن همکار جدید</a>
 </div>
 
-<div class="table-container-wrapper">
-    {{-- بخش فیلترها --}}
-    <div class="filter-section">
-        <select name="filter_name" id="filter_name">
-            <option value="">نام و نام خانوادگی</option>
-            <option value="سبحان">سبحان فروغی</option>
-            <option value="سید امین">سید امین احمدی</option>
-        </select>
-        <select name="filter_unit" id="filter_unit">
-            <option value="">واحد</option>
-            <option value="فنی">فنی</option>
-            <option value="اداری">اداری</option>
-        </select>
-        <select name="filter_team" id="filter_team">
-            <option value="">تیم</option>
-            <option value="فنی">پشتیبانی</option>
-            <option value="اداری">مالی</option>
-        </select>
+{{-- نمایش پیام‌های موفقیت یا خطا --}}
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
+@endif
 
+<div class="table-container-wrapper">
     {{-- جدول داده‌ها --}}
     <table class="data-table">
         <thead>
             <tr>
-                <th><i class="fas fa-user-circle"></i> کد پرسنلی</th>
-                <th><i class="fas fa-user"></i> نام</th>
-                <th><i class="fas fa-users"></i> نام خانوادگی</th>
-                <th><i class="fas fa-envelope"></i> ایمیل</th>
-                <th><i class="fas fa-calendar-alt"></i> تاریخ تولد</th>
-                <th><i class="fas fa-briefcase"></i> کسب و کار</th>
-                <th><i class="fas fa-heart"></i> وضعیت همکاری</th>
-                <th><i class="fas fa-phone-alt"></i> شماره تماس</th>
-                <th><i class="fas fa-cogs"></i> اقدامات</th>
+                <th>کد پرسنلی</th>
+                <th>نام</th>
+                <th>نام خانوادگی</th>
+                <th>ایمیل سازمانی</th>
+                <th>سمت شغلی</th>
+                <th>وضعیت همکاری</th>
+                <th>شماره تماس</th>
+                <th>اقدامات</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($employees as $person)
-                @dd($employees)
+            @forelse ($employees as $employee)
             <tr>
-                <td>{{ $person['employee_number'] }}</td>
-                <td>{{ $person['name'] }}</td>
-                <td>{{ $person['family'] }}</td>
-                <td>{{ $person['email'] }}</td>
-                <td>{{ $person['birth_date'] }}</td>
-                <td>{{ $person['job'] }}</td>
-                <td>{{ $person['status'] }}</td>
-                <td>{{ $person['phone'] }}</td>
+                <td>{{ $employee->employee_number }}</td>
+                <td>{{ $employee->first_name }}</td>
+                <td>{{ $employee->last_name }}</td>
+                <td>{{ $employee->organization_email }}</td>
+                <td>{{ $employee->position_chart ?? '-' }}</td>
+                <td>{{ $employee->work_status }}</td>
+                <td>{{ $employee->phone_number }}</td>
                 <td>
-                    <a href="/personnel/{{ $person['id'] }}" title="مشاهده پروفایل" class="action-icon view-icon"><i class="fas fa-eye"></i></a>
-                    <a href="#" title="ویرایش" class="action-icon edit-icon"><i class="fas fa-edit"></i></a>
-                    <a href="#" title="حذف" class="action-icon delete-icon"><i class="fas fa-trash"></i></a>
+                    <a href="{{ route('employees.show', $employee->id) }}" title="مشاهده پروفایل" class="action-icon view-icon"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('employees.edit', $employee->id) }}" title="ویرایش" class="action-icon edit-icon"><i class="fas fa-edit"></i></a>
+                    <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('آیا از حذف این کارمند مطمئن هستید؟');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" title="حذف" class="action-icon delete-icon" style="background:none; border:none; cursor:pointer; padding:0;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="8" style="text-align:center;">هیچ کارمندی برای نمایش وجود ندارد.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
-
+    
     <div class="pagination">
-        <a href="#">&laquo;</a>
-        <a href="#" class="active">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">&raquo;</a>
+        {{-- {{ $employees->links() }} --}}
     </div>
 </div>
-
-{{-- کد HTML پاپ‌آپ --}}
-<div class="modal-overlay" id="add-employee-modal">
-    <div class="modal-content">
-        <span class="modal-close" id="close-modal-btn">&times;</span>
-        <h2>افزودن همکار جدید</h2>
-        <form action="{{route("employees.store")}}" method="POST">
-            @method("POST")
-            @csrf
-            <div class="modal-form-group">
-                <label for="employee_name">شماره پرسنلی</label>
-                <input type="number" id="employee_number" name="employee_number" required>
-            </div>
-            <div class="modal-form-group">
-                <label for="employee_name">نام</label>
-                <input type="text" id="employee_name" name="employee_name" required>
-            </div>
-            <div class="modal-form-group">
-                <label for="employee_family">نام خانوادگی</label>
-                <input type="text" id="employee_family" name="employee_family" required>
-            </div>
-            <div class="modal-form-group">
-                <label for="employee_email">ایمیل</label>
-                <input type="email" id="employee_email" name="employee_email" required>
-            </div>
-            <div class="modal-form-group">
-                <label for="employee_job">کسب و کار</label>
-                <input type="text" id="employee_job" name="employee_job" required>
-            </div>
-            <div class="modal-form-group">
-                <label for="employee_status">وضعیت همکاری</label>
-                <input type="text" id="employee_status" name="employee_status" required>
-            </div>
-            <div class="modal-form-group">
-                <label for="employee_phone">شماره تماس</label>
-                <input type="text" id="employee_phone" name="employee_phone" required>
-            </div>
-            <div class="modal-buttons">
-                <button type="button" class="btn-secondary" id="cancel-modal-btn">لغو</button>
-                <button type="submit" class="btn-success">ثبت</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- اسکریپت برای مدیریت پاپ‌آپ --}}
-<script>
-    const addBtn = document.getElementById('add-employee-btn');
-    const modal = document.getElementById('add-employee-modal');
-    const closeBtn = document.getElementById('close-modal-btn');
-    const cancelBtn = document.getElementById('cancel-modal-btn');
-
-    addBtn.addEventListener('click', function(event) {
-        event.preventDefault();
-        modal.style.display = 'flex';
-    });
-
-    closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    cancelBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-</script>
 @endsection
+
+{{-- این صفحه دیگر نیازی به پاپ‌آپ و اسکریپت آن ندارد --}}

@@ -26,12 +26,12 @@ class StoreemployeeRequest extends FormRequest
             'first_name'          => 'required|string|max:255',
             'last_name'           => 'required|string|max:255',
             'full_name'           => 'required|string|max:255',
-            'nickname'            => 'nullable|string|max:255',
-            'position'            => 'nullable|string|max:255',
-            'team'                => 'nullable|string|max:255',
-            'department'          => 'nullable|string|max:255',
-            'manager'             => 'nullable|string|max:255',
-            'job_level'           => 'nullable|string|max:255',
+            'nickname'            => 'required|string|max:255',
+            'position'            => 'required|string|max:255',
+            'team'                => 'required|string|max:255',
+            'department'          => 'required|string|max:255',
+            'manager'             => 'required|string|max:255',
+            'job_level'           => 'required|in:S1,S2,S3,M1,M2,M3,J1,J2,J3',
 
             'contract_type'       => 'required|in:دورکاری,کارآموزی,آزمایشی,تمام وقت,پاره وقت',
             'cooperation_status'  => 'required|in:تمام وقت,پاره وقت',
@@ -39,9 +39,8 @@ class StoreemployeeRequest extends FormRequest
             'formality'           => 'required|in:رسمی,غیررسمی',
 
             'phone_number'        => 'required|string|max:20',
-            'email'               => 'nullable|email|max:255',
-            'organization_email'  => 'nullable|email|max:255',
+            'email'               => 'required|email|max:255',
+            'organization_email'  => 'required|email|max:255',
         ];
     }
-
 }
