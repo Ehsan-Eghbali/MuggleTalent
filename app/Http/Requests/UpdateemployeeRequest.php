@@ -34,6 +34,7 @@ class UpdateemployeeRequest extends FormRequest
             'contract_type' => 'required|in:دورکاری,کارآموزی,آزمایشی,تمام وقت,پاره وقت',
             'work_status' => 'required|in:حضوری,دورکار,هیبریدی',
             'formality' => 'required|in:رسمی,غیررسمی',
+            'cooperation_status' => 'required|in:تمام وقت,پاره وقت',
             'phone_number' => 'required|string',
             'email' => 'nullable|email',
             'organization_email' => 'nullable|email',

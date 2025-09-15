@@ -115,6 +115,13 @@
                             <option value="پاره وقت" @if(old('contract_type', $employee->contract_type ?? '') == 'پاره وقت') selected @endif>پاره وقت</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="cooperation_status">نوع همکاری </label>
+                        <select name="cooperation_status" id="cooperation_status" required>
+                            <option value="">-- انتخاب کنید --</option>
+                            <option value="تمام وقت" @if(old('cooperation_status', $employee->cooperation_status ?? '') == 'تمام وقت') selected @endif>دورکاری</option>
+                            <option value="پاره وقت" @if(old('cooperation_status', $employee->cooperation_status ?? '') == 'پاره وقت') selected @endif>کارآموزی</option>
+                            </select>
                 </div>
             </div>
         </div>
