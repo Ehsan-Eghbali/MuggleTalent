@@ -120,7 +120,7 @@ class EmployeeController extends Controller
      */
     public function show(Employees $employee)
     {
-        return view('employees.show', compact('employee'));
+        return view('dashboard.personnel-profile', compact('employee'));
     }
 
     /**
