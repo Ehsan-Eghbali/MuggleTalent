@@ -128,7 +128,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employees $employee)
     {
-        return view('employees.edit', compact('employee'));
+        return view('dashboard.employees.create', compact('employee'));
     }
 
     /**

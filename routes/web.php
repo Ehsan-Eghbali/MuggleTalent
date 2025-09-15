@@ -312,4 +312,31 @@ Route::get('/payroll-history', function () {
     return view('dashboard.payrolls.history', ['logs' => $history_logs]);
 });
 
+Route::get('/reports', function () {
+    // داده‌های فیک برای کارت‌های آماری
+    $stats = [
+        'total_personnel' => 125,
+        'new_hires' => 8,
+        'departures' => 2,
+    ];
+
+    // داده‌های فیک برای نمودارها
+    $departmentData = [
+        'labels' => ['فنی', 'منابع انسانی', 'فروش', 'مالی'],
+        'data' => [60, 15, 35, 15],
+    ];
+
+    $techData = [
+        'labels' => ['فنی', 'غیر فنی'],
+        'data' => [70, 55],
+    ];
+
+    $genderData = [
+        'labels' => ['مرد', 'زن'],
+        'data' => [80, 45],
+    ];
+
+    return view('dashboard.reports.index', compact('stats', 'departmentData', 'techData', 'genderData'));
+});
+
 require __DIR__ . '/auth.php';

@@ -16,7 +16,7 @@ class Employees extends Model
         'last_name',
         'nickname',
         'full_name',
-        'position',
+        'position_chart',
         'team',
         'department',
         'manager',

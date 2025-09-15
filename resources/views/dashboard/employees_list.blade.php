@@ -47,7 +47,7 @@
                 <td>{{ $employee->first_name }}</td>
                 <td>{{ $employee->last_name }}</td>
                 <td>{{ $employee->organization_email }}</td>
-                <td>{{ $employee->position_chart ?? '-' }}</td>
+                <td>{{ $employee->position_chart  }}</td>
                 <td>{{ $employee->work_status }}</td>
                 <td>{{ $employee->phone_number }}</td>
                 <td>

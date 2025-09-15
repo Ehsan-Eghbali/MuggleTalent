@@ -27,7 +27,7 @@ class StoreemployeeRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'full_name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'position' => 'required|string|max:255',
+            'position_chart' => 'required|string|max:255',
             'team' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'direct_manager' => 'required|string|max:255',
