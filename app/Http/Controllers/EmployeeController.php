@@ -31,87 +31,119 @@ class EmployeeController extends Controller
      */
     public function store(StoreemployeeRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $employee = Employees::create([
-                'employee_number'    => $request->employee_number,
-                'first_name'         => $request->first_name,
-                'last_name'          => $request->last_name,
-                'full_name'          => $request->full_name,
-                'nickname'           => $request->nickname,
-                'position_chart'     => $request->position_chart,
-                'team'               => $request->team,
-                'department'         => $request->department,
-                'direct_manager'     => $request->direct_manager,
-                'job_level'          => $request->job_level,
-                'contract_type'      => $request->contract_type,
-                'work_status'        => $request->work_status,
-                'formality'          => $request->formality,
-                'phone_number'       => $request->phone_number,
-                'email'              => $request->email,
-                'organization_email' => $request->organization_email,
-                'gender'             => $request->gender,
-            ]);
+        // این کد را در متد store یا update کنترلر خود قرار دهید.
+// برای متد update، ابتدا کارمند را پیدا کنید:
+// $employee = Employee::findOrFail($id);
 
-        // // جدول personals
-        //     $employee->personal()->create([
-        //         //'birth_date'       => $request->birth_date,
-        //         'national_code'    => $request->national_code,
-        //         'father_name'      => $request->father_name,
-        //         'marital_status'   => $request->marital_status,
-        //         'gender'           => $request->gender,
-        //         'birth_place'      => $request->birth_place,
-        //     ]);
+DB::transaction(function () use ($request) {
 
-        //     // جدول contracts
-        //     $employee->contract()->create([
-        //         'contract_number'  => $request->contract_number,
-        //         'start_date'       => $request->contract_start_date,
-        //         'end_date'         => $request->contract_end_date,
-        //         'nda_signed'       => $request->nda_signed,
-        //         'nda_date'         => $request->nda_date,
-        //     ]);
 
-        //     // جدول insurances
-        //     $employee->insurance()->create([
-        //         'insurance_number'     => $request->insurance_number,
-        //         'insurance_position'   => $request->insurance_position,
-        //         'insurance_start_date' => $request->insurance_start_date,
-        //     ]);
+    $employeeData = [
+        'employee_number'    => $request->employee_number,
+        'first_name'         => $request->first_name,
+        'last_name'          => $request->last_name,
+        'full_name'          => $request->full_name,
+        'nickname'           => $request->nickname,
+        'position_chart'     => $request->position_chart,
+        'team'               => $request->team,
+        'department'         => $request->department,
+        'direct_manager'     => $request->direct_manager,
+        'job_level'          => $request->job_level,
+        'contract_type'      => $request->contract_type,
+        'work_status'        => $request->work_status,
+        'formality'          => $request->formality,
+        'phone_number'       => $request->phone_number,
+        'email'              => $request->email,
+        'organization_email' => $request->organization_email,
+        'gender'             => $request->gender,
+    ];
 
-        //     // جدول education
-        //     $employee->education()->create([
-        //         'highest_degree'   => $request->highest_degree,
-        //         'university'       => $request->university,
-        //         'major'            => $request->major,
-        //         'graduation_year'  => $request->graduation_year,
-        //     ]);
+    // ایجاد یا آپدیت کارمند اصلی
+    // در متد store از create و در update از findOrFail()->update() استفاده کنید
+    $employee = Employees::updateOrCreate(
+        ['id' => $request->id], // or whatever unique identifier you use for update
+        $employeeData
+    );
 
-        //     // جدول militaries
-        //     $employee->military()->create([
-        //         'service_status'   => $request->service_status,
-        //         'exemption_reason' => $request->exemption_reason,
-        //         'military_code'    => $request->military_code,
-        //     ]);
+    // جدول personal
+    $employee->personal()->updateOrCreate([], [
+        'father_name'        => $request->father_name,
+        'mother_name'        => $request->mother_name,
+        'national_code'      => $request->national_code,
+        'id_number'          => $request->id_number,
+        'id_serial'          => $request->id_serial,
+        'birthplace'         => $request->birthplace,
+        'id_issue_place'     => $request->id_issue_place,
+        'birth_date_shamsi'  => $request->birth_date_shamsi,
+        'birth_date_real'    => $request->birth_date_real,
+    ]);
 
-        //     // جدول contact_informations
-        //     $employee->contactInformation()->create([
-        //         'home_phone'         => $request->home_phone,
-        //         'emergency_contact'  => $request->emergency_contact,
-        //         'address'            => $request->address,
-        //         'city'               => $request->city,
-        //         'province'           => $request->province,
-        //     ]);
+    // جدول addresses
+    $employee->address()->updateOrCreate([], [
+        'home_address'           => $request->home_address,
+        'postal_code'            => $request->postal_code,
+        'home_phone'             => $request->home_phone,
+        'emergency_phone'        => $request->emergency_phone,
+        'emergency_contact_info' => $request->emergency_contact_info,
+    ]);
 
-        //     // جدول socials
-        //     $employee->social()->create([
-        //         'telegram_id'          => $request->telegram_id,
-        //         'previous_experience' => $request->previous_experience,
-        //         'sheba_check_control' => $request->sheba_check_control,
-        //         'insurance_workshop'  => $request->insurance_workshop,
-        //     ]);
-        });
+    // جدول contracts
+    $employee->contract()->updateOrCreate([], [
+        'contract_number'       => $request->contract_number,
+        'trial_start_date'      => $request->trial_start_date,
+        'exit_type'             => $request->exit_type,
+        'exit_reason'           => $request->exit_reason,
+        'wants_insurance'       => $request->wants_insurance,
+        'supplementary_insurance' => $request->supplementary_insurance,
+        'cooperation_status'    => $request->cooperation_status,
+        'entry_date'            => $request->entry_date,
+        'exit_date'             => $request->exit_date,
+    ]);
 
-        return redirect()->route('employees.index')->with('success', 'کارمند با موفقیت ایجاد شد.');
+    // جدول nda_contracts
+    $employee->ndaContract()->updateOrCreate([], [
+        'nda_type'       => $request->nda_type,
+        'nda_start_date' => $request->nda_start_date,
+        'nda_end_date'   => $request->nda_end_date,
+    ]);
+
+    // جدول insurances
+    $employee->insurance()->updateOrCreate([], [
+        'insurance_position' => $request->insurance_position,
+        'insurance_code'     => $request->insurance_code,
+        'insurance_number'   => $request->insurance_number,
+        'has_dependents'     => $request->has_dependents,
+    ]);
+
+    // جدول educations
+    $employee->education()->updateOrCreate([], [
+        'degree'     => $request->degree,
+        'major'      => $request->major,
+        'university' => $request->university,
+    ]);
+
+    // جدول military
+    $employee->military()->updateOrCreate([], [
+        'military_status' => $request->military_status,
+        'start_date'      => $request->start_date,
+        'end_date'        => $request->end_date,
+    ]);
+    
+    // جدول bank_accounts
+    $employee->bankAccount()->updateOrCreate([], [
+        'pasargad_account_number' => $request->pasargad_account_number,
+        'pasargad_sheba'          => $request->pasargad_sheba,
+        'pasargad_card'           => $request->pasargad_card,
+        'pasargad_branch'         => $request->pasargad_branch,
+        'bank_type'               => $request->bank_type,
+        'bank_branch_name'        => $request->bank_branch_name,
+        'account_number'          => $request->account_number,
+        'sheba_number'            => $request->sheba_number,
+        'card_number'             => $request->card_number,
+    ]);
+});
+
+return redirect()->route('employees.index')->with('success', 'اطلاعات با موفقیت ذخیره شد.');
     }
 
 

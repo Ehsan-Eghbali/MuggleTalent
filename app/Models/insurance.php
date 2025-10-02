@@ -9,4 +9,11 @@ class insurance extends Model
 {
     /** @use HasFactory<\Database\Factories\InsuranceFactory> */
     use HasFactory;
+    protected $fillable = [
+        'employee_id',
+        'insurance_position',
+        'insurance_code',
+        'insurance_number',
+        'has_dependents',
+    ];
 }

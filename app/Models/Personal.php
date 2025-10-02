@@ -12,16 +12,20 @@ class Personal extends Model
     use HasFactory;
     protected $fillable = [
         'employee_id',
-        'birth_date',
-        'national_code',
         'father_name',
-        'marital_status',
-        'gender',
-        'birth_place',
+        'mother_name',
+        'national_code',
+        'id_number',
+        'id_serial',
+        'birthplace',
+        'id_issue_place',
+        'birth_date_shamsi',
+        'birth_date_real',
+        'age',
     ];
 
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(Employees::class);
+        return $this->belongsTo(Employee::class);
     }
 }
