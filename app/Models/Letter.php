@@ -15,6 +15,7 @@ class Letter extends Model
         'body_html',
         'status',
         'created_by',
+
     ];
 
     protected $casts = [
