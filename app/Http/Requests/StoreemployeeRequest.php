@@ -33,7 +33,7 @@ class StoreemployeeRequest extends FormRequest
             'direct_manager' => 'required|string|max:255',
             'job_level' => 'required|in:S1,S2,S3,M1,M2,M3,J1,J2,J3',
             'contract_type' => 'required|in:دورکاری,کارآموزی,آزمایشی,تمام وقت,پاره وقت',
-            'cooperation_status' => 'required|in:تمام وقت,پاره وقت',
+//            'cooperation_status' => 'required|in:تمام وقت,پاره وقت',
             'work_status' => 'required|in:حضوری,دورکار,هیبریدی',
             'formality' => 'required|in:رسمی,غیررسمی',
             'phone_number' => 'required|string|max:20',

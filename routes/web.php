@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LetterController;
 use App\Http\Controllers\ProfileController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,7 +25,6 @@ Route::get('/login', function () {
     return view('auth.login');
 });
 
-// این روت برای صفحه اصلی داشبورد است
 Route::get('/dashboard', function () {
     return view('dashboard.index');
 });
@@ -108,32 +109,39 @@ Route::get('/personnel/{id}', function ($id) {
     return view('dashboard.personnel-profile', ['employee' => $employee]);
 });
 
-// روت برای نمایش صفحه صدور نامه
-Route::get('/letters_issue', function () {
-    // داده‌های فیک برای انتخاب پرسنل و قالب‌ها
-    $personnel = [
-        ['id' => 1, 'name' => 'پوریا نیک وند'],
-        ['id' => 2, 'name' => 'سبحان فروغی'],
-        ['id' => 3, 'name' => 'سید امین احمدی'],
-    ];
+Route::get('/letters_issue', [LetterController::class, 'create'])
+    ->name('letters.issue')
+    ->middleware(['web','auth']);
 
-    $templates = [
-        ['id' => 'employment_certificate', 'name' => 'گواهی اشتغال به کار'],
-        ['id' => 'salary_certificate', 'name' => 'گواهی کسر از حقوق'],
-    ];
 
-    return view('dashboard.issue-letter', [
-        'personnel_list' => $personnel,
-        'templates_list' => $templates
-    ]);
-});
-
-// این روت را بعدا خواهیم ساخت
 Route::get('/letters_archive', function () {
     return view('dashboard.archive');
 });
-
+Route::get('/_pdf_font_test', function () {
+    $pdf = Pdf::loadView('letters.pdf_test')
+        ->setPaper('A4', 'portrait')
+        ->setOptions([
+            'isHtml5ParserEnabled'   => true,
+            'isRemoteEnabled'        => true,
+            'defaultFont'            => 'IRANYekanPDF',
+            'enable_font_subsetting' => true,
+        ]);
+    return $pdf->download('pdf-font-test.pdf');
+});
 // routes/web.php
+
+Route::prefix('letters')->name('letters.')->middleware(['web'])->group(function () {
+    // ساخت نامه (ثبت در پایگاه)
+    Route::post('/', [LetterController::class, 'store'])->name('store');
+
+    // ساخت نامه و تحویل مستقیم پی‌دی‌اف
+    Route::post('/generate-download', [LetterController::class, 'generateAndDownload'])->name('generate_download');
+
+    // پیوست‌ها
+    Route::post('{letter}/attachments', [LetterController::class, 'uploadAttachment'])->name('attachments.upload');
+    Route::get('{letter}/attachments/{attachment}/download', [LetterController::class, 'downloadAttachment'])->name('attachments.download');
+    Route::delete('{letter}/attachments/{attachment}', [LetterController::class, 'destroyAttachment'])->name('attachments.destroy');
+});
 
 // روت برای نمایش صفحه آرشیو نامه ها
 Route::get('/letters_archive', function () {

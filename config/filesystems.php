@@ -59,6 +59,13 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'letters' => [
+            'driver' => 'local',
+            'root' => storage_path('app/letters'),
+            'throw' => false,
+            'visibility' => 'private',
+        ],
+
 
     ],
 

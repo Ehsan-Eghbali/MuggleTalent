@@ -14,7 +14,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employees::all();
+        $employees = employees::all();
         return view('dashboard.employees_list', compact('employees'));
     }
 
@@ -60,7 +60,7 @@ DB::transaction(function () use ($request) {
 
     // ایجاد یا آپدیت کارمند اصلی
     // در متد store از create و در update از findOrFail()->update() استفاده کنید
-    $employee = Employees::updateOrCreate(
+    $employee = employees::updateOrCreate(
         ['id' => $request->id], // or whatever unique identifier you use for update
         $employeeData
     );
@@ -128,7 +128,7 @@ DB::transaction(function () use ($request) {
         'start_date'      => $request->start_date,
         'end_date'        => $request->end_date,
     ]);
-    
+
     // جدول bank_accounts
     $employee->bankAccount()->updateOrCreate([], [
         'pasargad_account_number' => $request->pasargad_account_number,
@@ -150,7 +150,7 @@ return redirect()->route('employees.index')->with('success', 'اطلاعات ب�
     /**
      * Display the specified resource.
      */
-    public function show(Employees $employee)
+    public function show(employees $employee)
     {
         return view('dashboard.personnel-profile', compact('employee'));
     }
@@ -158,7 +158,7 @@ return redirect()->route('employees.index')->with('success', 'اطلاعات ب�
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employees $employee)
+    public function edit(employees $employee)
     {
         return view('dashboard.employees.create', compact('employee'));
     }
@@ -166,7 +166,7 @@ return redirect()->route('employees.index')->with('success', 'اطلاعات ب�
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateemployeeRequest $request, Employees $employee)
+    public function update(UpdateemployeeRequest $request, employees $employee)
     {
         $employee->update($request->validated());
         return redirect()->route('employees.index')->with('success', 'کارمند با موفقیت بروزرسانی شد.');
@@ -175,7 +175,7 @@ return redirect()->route('employees.index')->with('success', 'اطلاعات ب�
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employees $employee)
+    public function destroy(employees $employee)
     {
         $employee->delete();
         return redirect()->route('employees.index')->with('success', 'کارمند حذف شد.');
