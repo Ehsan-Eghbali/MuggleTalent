@@ -35,7 +35,7 @@ class LetterService
         $todayFa = verta($letter->issued_at ?? now())->format('Y/n/j'); // اگر پکیج جلالی ندارید، تاریخ میلادی بگذارید
 
         $html = '
-            <div style="direction: rtl; font-family: tahoma; font-size: 14px; text-align: right;">
+            <div style="direction: rtl; font-family: vazirmatn; font-size: 14px; text-align: right;">
                 <p><strong>شماره نامه:</strong> '.e($letter->number ?: '—').'</p>
                 <p><strong>تاریخ:</strong> '.e($todayFa).'</p>
                 <h3 style="text-align:center;">'.e($title).'</h3>
