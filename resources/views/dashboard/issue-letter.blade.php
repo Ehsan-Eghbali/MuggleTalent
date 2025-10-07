@@ -198,7 +198,7 @@
                 if (key === 'salary_certificate') title = 'گواهی حقوق/ضمانت';
 
                 let html = `
-            <div style="direction: rtl; text-align:right; font-family:Tahoma; font-size:14px;">
+            <div style="direction: rtl; text-align:right; font-family:vazirmatn; font-size:14px;">
                 <p><strong>شماره نامه:</strong> ${sampleNo}</p>
                 <p><strong>تاریخ:</strong> ${todayFa}</p>
                 <h3 style="text-align:center;">${title}</h3>
@@ -383,15 +383,15 @@
             prsSelect.addEventListener('change', updatePreview);
             issuedAt.addEventListener('change', updatePreview);
 
-            btnSaveDraft.addEventListener('click', (e) => {
-                e.preventDefault();
-                saveLetter('draft');
-            });
+            // btnSaveDraft.addEventListener('click', (e) => {
+            //     e.preventDefault();
+            //     saveLetter('draft');
+            // });
 
-            btnSaveFinal.addEventListener('click', (e) => {
-                e.preventDefault();
-                saveLetter('final');
-            });
+            // btnSaveFinal.addEventListener('click', (e) => {
+            //     e.preventDefault();
+            //     saveLetter('final');
+            // });
 
             btnGenDownload.addEventListener('click', (e) => {
                 e.preventDefault();

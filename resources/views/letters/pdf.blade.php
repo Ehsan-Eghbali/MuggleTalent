@@ -3,28 +3,39 @@
 <head>
     <meta charset="utf-8">
     <style>
-        /* در mPDF فونت پیش‌فرض را در config/pdf.php روی iranyekanpdf تنظیم کنید */
-        * { font-family: 'iranyekanpdf', 'vazirmatn', sans-serif !important; }
+        /* ✅ تگ @font-face حذف شد، چون فونت در config/pdf.php تعریف شده است. */
 
-        html, body {
+        /* ۱. اعمال فونت تعریف شده در config/pdf.php */
+        body, p, div, span, * {
+            /* فونت vazirmatn که در config/pdf.php تعریف شده، به صورت سراسری اعمال می‌شود. */
+            font-family: 'vazirmatn', sans-serif !important; 
             direction: rtl;
-            text-align: right;
-            font-size: 12pt;
-            line-height: 1.9;
+        }
+
+        /* ۲. استایل‌های پایه برای سازگاری بهتر با mPDF */
+        html, body {
             margin: 0;
             padding: 0;
+            font-size: 12pt;
+            line-height: 1.9;
         }
 
         .page {
             padding: 22px 28px;
         }
 
+        /* ۳. اصلاح استایل‌های چینش (Flex/Gap) برای سازگاری با mPDF */
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
+            /* برای چینش عناصر در mPDF بهتر است از جدول یا float استفاده شود. */
+            display: table;
+            width: 100%;
             margin-bottom: 10px;
+        }
+        .header > div {
+            display: table-cell;
+            /* این دو خط برای فاصله انداختن بین Brand و Doc-Meta است */
+            padding-right: 16px; 
+            box-sizing: border-box; 
         }
 
         .brand {
@@ -37,6 +48,7 @@
             min-width: 220px;
         }
         .doc-meta p { margin: 0 0 6px; }
+        
         .ltr {
             direction: ltr !important;
             unicode-bidi: embed !important;
@@ -60,13 +72,14 @@
 
         .footer {
             margin-top: 34px;
-            display: flex;
-            justify-content: space-between;
-            gap: 24px;
+            /* استفاده از جدول برای چینش دو ستونی امضا */
+            display: table;
+            width: 100%;
         }
 
         .sign-box {
-            width: 48%;
+            display: table-cell;
+            width: 50%;
             border-top: 1px dashed #777;
             padding-top: 10px;
             text-align: center;
@@ -79,7 +92,6 @@
 <body>
 @php
     $body = $body_html ?? '';
-    // اگر در متن بدنه تگی از نوع تیتر وجود داشته باشد، تیتر صفحه را تکرار نکن
     $hasHeading = $body && preg_match('/<h[1-6][^>]*>/u', $body);
     $docTitle = $title ?? (($template_key ?? '') === 'salary_certificate' ? 'گواهی حقوق/ضمانت' : 'گواهی اشتغال به کار');
     $num = $number ?? '-';
@@ -104,15 +116,15 @@
 
     <div class="content">
         @if(!empty($body))
-            {{-- تحمیل فونت و راست‌به‌چپ به محتوای دریافتی --}}
-            <div style="font-family:'iranyekanpdf','vazirmatn',sans-serif; direction:rtl; unicode-bidi:isolate-override;">
+            {{-- اطمینان از اعمال فونت بر روی متن داینامیک --}}
+            <div style="font-family:'vazirmatn'; direction:rtl; unicode-bidi:isolate-override;">
                 {!! $body !!}
             </div>
         @else
             <p>
                 بدینوسیله گواهی می‌شود جناب آقای/خانم
                 <strong>{{ $person_name ?? '—' }}</strong>
-                در این شرکت مشغول به کار می‌باشند.
+                در شرکت پگاه داده کاوان شریف مشغول به کار می‌باشند.
             </p>
 
             @if(($template_key ?? '') === 'salary_certificate')
