@@ -69,6 +69,6 @@ class employees extends Model
 
     public function address(): HasOne
     {
-        return $this->hasOne(address::class, 'employee_id');
+        return $this->hasOne(Address::class, 'employee_id');
     }
 }
