@@ -59,12 +59,12 @@ class employees extends Model
 
     public function bankAccount(): HasOne
     {
-        return $this->hasOne(bankAccount::class, 'employee_id');
+        return $this->hasOne(BankAccount::class, 'employee_id');
     }
 
     public function ndaContract(): HasOne
     {
-        return $this->hasOne(ndaContracts::class, 'employee_id');
+        return $this->hasOne(NdaContracts::class, 'employee_id');
     }
 
     public function address(): HasOne
