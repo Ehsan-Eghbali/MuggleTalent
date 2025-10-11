@@ -39,36 +39,36 @@ class employees extends Model
 
     public function contract(): HasOne
     {
-        return $this->hasOne(Contract::class, 'employee_id');
+        return $this->hasOne(contract::class, 'employee_id');
     }
 
     public function insurance(): HasOne
     {
-        return $this->hasOne(Insurance::class, 'employee_id');
+        return $this->hasOne(insurance::class, 'employee_id');
     }
 
     public function education(): HasOne
     {
-        return $this->hasOne(Education::class, 'employee_id');
+        return $this->hasOne(education::class, 'employee_id');
     }
 
     public function military(): HasOne
     {
-        return $this->hasOne(Military::class, 'employee_id');
+        return $this->hasOne(military::class, 'employee_id');
     }
 
     public function bankAccount(): HasOne
     {
-        return $this->hasOne(BankAccount::class, 'employee_id');
+        return $this->hasOne(bankAccount::class, 'employee_id');
     }
 
     public function ndaContract(): HasOne
     {
-        return $this->hasOne(NdaContracts::class, 'employee_id');
+        return $this->hasOne(ndaContracts::class, 'employee_id');
     }
 
     public function address(): HasOne
     {
-        return $this->hasOne(Address::class, 'employee_id');
+        return $this->hasOne(address::class, 'employee_id');
     }
 }
