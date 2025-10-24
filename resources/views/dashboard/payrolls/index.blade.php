@@ -7,7 +7,10 @@
 @section('dashboard_content')
 <div class="page-header">
     <h1><i class="fas fa-file-invoice-dollar page-icon"></i> لیست حقوق و دستمزد</h1>
-    <a href="#" class="btn-secondary"><i class="fas fa-print"></i> خروجی و چاپ</a>
+    <div style="display: flex; gap: 10px;">
+        <button id="add-payroll-btn" class="btn-primary"><i class="fas fa-plus"></i> افزودن</button>
+        <a href="#" class="btn-secondary"><i class="fas fa-print"></i> خروجی و چاپ</a>
+    </div>
 </div>
 
 <div class="table-container-wrapper">
@@ -156,11 +159,89 @@
         </form>
     </div>
 </div>
+
+{{-- مودال افزودن حقوق جدید --}}
+<div class="modal-overlay" id="add-payroll-modal">
+    <div class="modal-content">
+        <span class="modal-close" id="close-add-modal-btn">&times;</span>
+        <h2>افزودن حقوق و دستمزد</h2>
+        <form id="add-payroll-form" method="POST" action="{{ route('payrolls.store') }}">
+            @csrf
+            <div class="modal-grid">
+                {{-- انتخاب کارمند --}}
+                <div class="payroll-item modal-full-width-item">
+                    <label for="add-employee-select" class="label">انتخاب کارمند <span style="color: red;">*</span></label>
+                    <select id="add-employee-select" name="employee_id" required>
+                        <option value="">-- انتخاب کنید --</option>
+                        @foreach($employeesWithoutPayroll as $employee)
+                            <option value="{{ $employee->id }}">{{ $employee->full_name }} ({{ $employee->employee_number }})</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- رده شغلی --}}
+                <div class="payroll-item">
+                    <label class="label">رده</label>
+                    <select name="level">
+                        <option value="">-- انتخاب کنید --</option>
+                        <option>جونیور ۱</option>
+                        <option>جونیور ۲</option>
+                        <option>جونیور ۳</option>
+                        <option>میدلول ۱</option>
+                        <option>میدلول ۲</option>
+                        <option>میدلول ۳</option>
+                        <option>سینیور ۱</option>
+                        <option>سینیور ۲</option>
+                    </select>
+                </div>
+
+                {{-- تمام فیلدهای حقوقی --}}
+                <div class="payroll-item">
+                    <label class="label">حقوق ۳۰ روزه</label>
+                    <input type="number" name="base_salary" placeholder="0" step="0.01">
+                </div>
+                <div class="payroll-item">
+                    <label class="label">پایه سنوات</label>
+                    <input type="number" name="seniority" placeholder="0" step="0.01">
+                </div>
+                <div class="payroll-item">
+                    <label class="label">حق مسکن</label>
+                    <input type="number" name="housing" placeholder="0" step="0.01">
+                </div>
+                <div class="payroll-item">
+                    <label class="label">حق تاهل</label>
+                    <input type="number" name="marriage" placeholder="0" step="0.01">
+                </div>
+                <div class="payroll-item">
+                    <label class="label">حق اولاد</label>
+                    <input type="number" name="children" placeholder="0" step="0.01">
+                </div>
+                <div class="payroll-item">
+                    <label class="label">حق مسئولیت</label>
+                    <input type="number" name="responsibility" placeholder="0" step="0.01">
+                </div>
+                <div class="payroll-item">
+                    <label class="label">خوار و بار</label>
+                    <input type="number" name="food" placeholder="0" step="0.01">
+                </div>
+                <div class="payroll-item">
+                    <label class="label">غیررسمی</label>
+                    <input type="number" name="informal" placeholder="0" step="0.01">
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-secondary" id="cancel-add-modal-btn">انصراف</button>
+                <button type="submit" class="btn-success">ثبت حقوق</button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // مودال ویرایش/مشاهده
     const modal = document.getElementById('payroll-modal');
     const modalTitle = document.getElementById('modal-title');
     const closeBtn = document.getElementById('close-modal-btn');
@@ -168,6 +249,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const actionIcons = document.querySelectorAll('.action-icon');
     const form = document.getElementById('payroll-form');
     const payrollIdInput = document.getElementById('payroll_id');
+
+    // مودال افزودن
+    const addModal = document.getElementById('add-payroll-modal');
+    const addBtn = document.getElementById('add-payroll-btn');
+    const closeAddBtn = document.getElementById('close-add-modal-btn');
+    const cancelAddBtn = document.getElementById('cancel-add-modal-btn');
+    const addForm = document.getElementById('add-payroll-form');
 
     function openModal(mode, rowData) {
         modalTitle.textContent = mode === 'view' ? `مشاهده جزئیات: ${rowData.name}` : `ویرایش حقوق: ${rowData.name}`;
@@ -246,6 +334,73 @@ document.addEventListener('DOMContentLoaded', function () {
     cancelBtn.addEventListener('click', closeModal);
     window.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
+    });
+
+    // مدیریت مودال افزودن
+    function openAddModal() {
+        addForm.reset(); // ریست کردن فرم
+        addModal.style.display = 'flex';
+    }
+
+    function closeAddModal() {
+        addModal.style.display = 'none';
+    }
+
+    addBtn.addEventListener('click', openAddModal);
+    closeAddBtn.addEventListener('click', closeAddModal);
+    cancelAddBtn.addEventListener('click', closeAddModal);
+    
+    window.addEventListener('click', (e) => {
+        if (e.target === addModal) closeAddModal();
+    });
+
+    // ارسال فرم افزودن با AJAX
+    addForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        const formData = new FormData(addForm);
+        
+        fetch('{{ route("payrolls.store") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('#add-payroll-form input[name="_token"]').value,
+                'Accept': 'application/json',
+            },
+            body: formData
+        })
+        .then(response => {
+            // بررسی وضعیت response
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw err;
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                closeAddModal();
+                // بارگذاری مجدد صفحه برای نمایش تغییرات
+                window.location.reload();
+            } else {
+                alert(data.message || 'خطا در ثبت حقوق');
+                if (data.errors) {
+                    console.error('Validation errors:', data.errors);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            let errorMessage = 'خطا در ارتباط با سرور';
+            if (error.message) {
+                errorMessage = error.message;
+            }
+            if (error.errors) {
+                errorMessage += '\n' + Object.values(error.errors).flat().join('\n');
+            }
+            alert(errorMessage);
+        });
     });
 });
 </script>

@@ -33,7 +33,10 @@ class PayrollController extends Controller
             ];
         });
 
-        return view('dashboard.payrolls.index', compact('payrolls'));
+        // دریافت کارمندانی که حقوق ندارند
+        $employeesWithoutPayroll = employees::whereDoesntHave('payroll')->get();
+
+        return view('dashboard.payrolls.index', compact('payrolls', 'employeesWithoutPayroll'));
     }
 
     /**
@@ -41,22 +44,62 @@ class PayrollController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'employee_id' => 'required|exists:employees,id',
-            'level' => 'nullable|string',
-            'base_salary' => 'nullable|numeric',
-            'seniority' => 'nullable|numeric',
-            'housing' => 'nullable|numeric',
-            'marriage' => 'nullable|numeric',
-            'children' => 'nullable|numeric',
-            'responsibility' => 'nullable|numeric',
-            'food' => 'nullable|numeric',
-            'informal' => 'nullable|numeric',
-        ]);
+        try {
+            // پاک کردن فیلدهای خالی قبل از validation
+            $input = $request->all();
+            foreach ($input as $key => $value) {
+                if ($value === '' || $value === null) {
+                    $input[$key] = null;
+                }
+            }
+            $request->merge($input);
 
-        $payroll = Payroll::create($validated);
+            $validated = $request->validate([
+                'employee_id' => 'required|exists:employees,id',
+                'level' => 'nullable|string',
+                'base_salary' => 'nullable|numeric|min:0',
+                'seniority' => 'nullable|numeric|min:0',
+                'housing' => 'nullable|numeric|min:0',
+                'marriage' => 'nullable|numeric|min:0',
+                'children' => 'nullable|numeric|min:0',
+                'responsibility' => 'nullable|numeric|min:0',
+                'food' => 'nullable|numeric|min:0',
+                'informal' => 'nullable|numeric|min:0',
+            ]);
 
-        return redirect()->route('payrolls.index')->with('success', 'حقوق با موفقیت ثبت شد.');
+            // تبدیل مقادیر null به 0
+            $data = [
+                'employee_id' => $validated['employee_id'],
+                'level' => $validated['level'] ?? null,
+                'base_salary' => $validated['base_salary'] ?? 0,
+                'seniority' => $validated['seniority'] ?? 0,
+                'housing' => $validated['housing'] ?? 0,
+                'marriage' => $validated['marriage'] ?? 0,
+                'children' => $validated['children'] ?? 0,
+                'responsibility' => $validated['responsibility'] ?? 0,
+                'food' => $validated['food'] ?? 0,
+                'informal' => $validated['informal'] ?? 0,
+            ];
+
+            $payroll = Payroll::create($data);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'حقوق با موفقیت ثبت شد.'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'خطای اعتبارسنجی',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'خطا در ثبت حقوق: ' . $e->getMessage(),
+                'trace' => config('app.debug') ? $e->getTraceAsString() : null
+            ], 500);
+        }
     }
 
     /**
