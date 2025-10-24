@@ -128,6 +128,30 @@ Route::get('/_pdf_font_test', function () {
         ]);
     return $pdf->download('pdf-font-test.pdf');
 });
+
+Route::get('/_pdf_debug_test', function () {
+    try {
+        $dataForView = [
+            'number' => '۱۴۰۴/پ/۱۲۳۴۵۶',
+            'issued_at' => '۱۴۰۴/۰۱/۰۱',
+            'title' => 'گواهی اشتغال به کار',
+            'template_key' => 'employment_certificate',
+            'person_name' => 'احمد محمدی',
+            'recipient_name' => 'بانک ملی',
+            'guarantee_amount' => null,
+            'body_html' => null,
+        ];
+
+        $pdf = \niklasravnsborg\LaravelPdf\Facades\Pdf::loadView('letters.pdf', $dataForView);
+
+        return $pdf->download('pdf-debug-test.pdf');
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
+});
 // routes/web.php
 
 Route::prefix('letters')->name('letters.')->middleware(['web'])->group(function () {
@@ -323,28 +347,36 @@ Route::get('/payroll-history', function () {
 Route::get('/reports', function () {
     // داده‌های فیک برای کارت‌های آماری
     $stats = [
-        'total_personnel' => 125,
+        'total_personnel' => 278,
         'new_hires' => 8,
         'departures' => 2,
     ];
 
     // داده‌های فیک برای نمودارها
-    $departmentData = [
-        'labels' => ['فنی', 'منابع انسانی', 'فروش', 'مالی'],
-        'data' => [60, 15, 35, 15],
+    $teamData = [
+        'labels' => ['تپسل', 'فانتوری', 'متریکس', 'مدیاهاوس', 'گروه هوش مصنوعی'],
+        'data' => [170, 56, 10, 23, 39],
     ];
 
     $techData = [
-        'labels' => ['فنی', 'غیر فنی'],
-        'data' => [70, 55],
+        'labels' => ['پرسنل فنی', 'پرسنل غیر فنی'],
+        'data' => [67, 33],
     ];
 
     $genderData = [
-        'labels' => ['مرد', 'زن'],
-        'data' => [80, 45],
+        'labels' => ['مردان', 'زنان'],
+        'data' => [54, 46],
     ];
 
-    return view('dashboard.reports.index', compact('stats', 'departmentData', 'techData', 'genderData'));
+    return view('dashboard.reports.index', compact('stats', 'teamData', 'techData', 'genderData'));
+});
+
+Route::get('/reports/demographic', function () {
+    return view('dashboard.reports.demographic');
+});
+
+Route::get('/reports/recruitment', function () {
+    return view('dashboard.reports.recruitment');
 });
 
 require __DIR__ . '/auth.php';

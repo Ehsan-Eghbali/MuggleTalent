@@ -71,4 +71,14 @@ class employees extends Model
     {
         return $this->hasOne(Address::class, 'employee_id');
     }
+
+    public function contactInformation(): HasOne
+    {
+        return $this->hasOne(contract_information::class, 'employee_id');
+    }
+
+    public function social(): HasOne
+    {
+        return $this->hasOne(Social::class, 'employee_id');
+    }
 }

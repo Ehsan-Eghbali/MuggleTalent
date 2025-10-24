@@ -102,26 +102,46 @@ class LetterController extends Controller
     }
     public function generateAndDownload(StoreLetterRequest $request, LetterService $service)
     {
-        $data = $request->validated();
-        $data['created_by'] = $request->user()->id ?? 0;
-        $data['status'] = 'final'; // مستقیم نهایی
+        try {
+            $data = $request->validated();
+            $data['created_by'] = $request->user()->id ?? 0;
+            $data['status'] = 'final'; // مستقیم نهایی
 
-        $letter = DB::transaction(function () use ($data, $service) {
-            if (empty($data['number'])) {
-                $data['number'] = $service->generateNumber();
+            $letter = DB::transaction(function () use ($data, $service) {
+                if (empty($data['number'])) {
+                    $data['number'] = $service->generateNumber();
+                }
+                $letter = Letter::create($data);
+                $service->generatePdfAndAttach($letter); // پیوست پی‌دی‌اف
+                return $letter;
+            });
+
+            // آخرین پیوست (پی‌دی‌اف) را دانلود بده
+            /** @var LetterAttachment|null $pdf */
+            $pdf = $letter->attachments()->latest('id')->first();
+
+            if (!$pdf) {
+                \Log::error('PDF attachment not found for letter: ' . $letter->id);
+                return response()->json(['error' => 'فایل PDF یافت نشد'], 404);
             }
-            $letter = Letter::create($data);
-            $service->generatePdfAndAttach($letter); // پیوست پی‌دی‌اف
-            return $letter;
-        });
 
-        // آخرین پیوست (پی‌دی‌اف) را دانلود بده
-        /** @var LetterAttachment|null $pdf */
-        $pdf = $letter->attachments()->latest('id')->first();
+            if (!$pdf->existsOnDisk()) {
+                \Log::error('PDF file does not exist on disk: ' . $pdf->path);
+                return response()->json(['error' => 'فایل PDF روی دیسک وجود ندارد'], 404);
+            }
 
-        abort_unless($pdf && $pdf->existsOnDisk(), 404);
+            return Storage::disk($pdf->disk)->download($pdf->path, $pdf->original_name);
 
-        return Storage::disk($pdf->disk)->download($pdf->path, $pdf->original_name);
+        } catch (\Exception $e) {
+            \Log::error('PDF Generation and Download Error: ' . $e->getMessage(), [
+                'request_data' => $request->validated(),
+                'error' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'error' => 'خطا در تولید PDF: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function uploadAttachment(UploadLetterAttachmentRequest $request, Letter $letter)

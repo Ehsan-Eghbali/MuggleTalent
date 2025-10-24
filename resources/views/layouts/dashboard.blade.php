@@ -12,7 +12,14 @@
             <img src="{{ asset('images/logo.png') }}" alt="لوگو سامانه" style="width:120px; height:auto; margin-bottom:10px;">
         </div>
         <ul class="sidebar-menu">
-            <li><a href="/reports"><i class="fas fa-info-circle menu-icon"></i><span>گزارش منابع انسانی</span></a></li>
+            <li class="has-submenu {{ request()->is('reports*') ? 'open active' : '' }}">
+                <a href="#"><i class="fas fa-chart-pie menu-icon"></i><span>گزارشات منابع انسانی</span><i class="fas fa-chevron-down toggle-icon"></i></a>
+                <ul class="sidebar-submenu">
+                    <li class="{{ request()->is('reports') ? 'active' : '' }}"><a href="/reports">گزارشات کلی</a></li>
+                    <li class="{{ request()->is('reports/demographic') ? 'active' : '' }}"><a href="/reports/demographic">گزارشات جمعیت شناختی</a></li>
+                    <li class="{{ request()->is('reports/recruitment') ? 'active' : '' }}"><a href="/reports/recruitment">گزارشات جذب و استخدام</a></li>
+                </ul>
+            </li>
 
             <li class="has-submenu {{ request()->is('personnel-list*') || request()->is('personnel/*') ? 'open active' : '' }}">
                 <a href="#"><i class="fas fa-list-alt menu-icon"></i><span>لیست پرسنلی</span><i class="fas fa-chevron-down toggle-icon"></i></a>

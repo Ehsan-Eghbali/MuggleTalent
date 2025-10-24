@@ -141,6 +141,19 @@ DB::transaction(function () use ($request) {
         'sheba_number'            => $request->sheba_number,
         'card_number'             => $request->card_number,
     ]);
+
+    // جدول contract_information
+    $employee->contactInformation()->updateOrCreate([], [
+        'address'                 => $request->address,
+        'postal_code'             => $request->postal_code,
+        'emergency_contact'       => $request->emergency_contact,
+        'emergency_contact_info'  => $request->emergency_contact_info,
+    ]);
+
+    // جدول social
+    $employee->social()->updateOrCreate([], [
+        'telegram_id'             => $request->telegram_id,
+    ]);
 });
 
 return redirect()->route('employees.index')->with('success', 'اطلاعات با موفقیت ذخیره شد.');
@@ -152,6 +165,19 @@ return redirect()->route('employees.index')->with('success', 'اطلاعات ب�
      */
     public function show(employees $employee)
     {
+        $employee->load([
+            'personal',
+            'contract', 
+            'insurance',
+            'education',
+            'military',
+            'bankAccount',
+            'ndaContract',
+            'address',
+            'contactInformation',
+            'social'
+        ]);
+        
         return view('dashboard.personnel-profile', compact('employee'));
     }
 

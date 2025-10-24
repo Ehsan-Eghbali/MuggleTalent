@@ -6,7 +6,7 @@
 
 @section('dashboard_content')
 <div class="page-header">
-    <h1><i class="fas fa-chart-pie page-icon"></i> گزارشات منابع انسانی</h1>
+    <h1><i class="fas fa-chart-pie page-icon"></i> گزارشات کلی منابع انسانی</h1>
 </div>
 
 {{-- بخش کارت‌های آماری --}}
@@ -37,8 +37,8 @@
 {{-- بخش نمودارها --}}
 <div class="charts-grid">
     <div class="chart-card">
-        <h3>پرسنل در هر واحد</h3>
-        <canvas id="departmentChart"></canvas>
+        <h3>پرسنل در هر تیم</h3>
+        <canvas id="teamChart"></canvas>
     </div>
     <div class="chart-card">
         <h3>پرسنل فنی و غیر فنی</h3>
@@ -58,18 +58,18 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // تبدیل داده‌های Blade به متغیرهای جاوااسکریپت
-    const departmentData = @json($departmentData);
+    const teamData = @json($teamData);
     const techData = @json($techData);
     const genderData = @json($genderData);
 
-    // نمودار تعداد پرسنل در هر واحد
-    new Chart(document.getElementById('departmentChart'), {
+    // نمودار تعداد پرسنل در هر تیم
+    new Chart(document.getElementById('teamChart'), {
         type: 'bar',
         data: {
-            labels: departmentData.labels,
+            labels: teamData.labels,
             datasets: [{
                 label: 'تعداد پرسنل',
-                data: departmentData.data,
+                data: teamData.data,
                 backgroundColor: '#38bdf8',
                 borderColor: '#0ea5e9',
                 borderWidth: 1

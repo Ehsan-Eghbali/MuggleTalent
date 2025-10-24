@@ -280,6 +280,8 @@
                         return;
                     }
 
+                    notify('info', 'در حال تولید PDF...');
+
                     const res = await fetch(`{{ route('letters.generate_download') }}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
@@ -287,12 +289,31 @@
                     });
 
                     if (!res.ok) {
-                        const t = await res.text();
-                        throw new Error(t || 'خطا در تولید پی‌دی‌اف');
+                        let errorMessage = 'خطا در تولید پی‌دی‌اف';
+                        try {
+                            const errorData = await res.json();
+                            errorMessage = errorData.error || errorMessage;
+                        } catch {
+                            const text = await res.text();
+                            errorMessage = text || errorMessage;
+                        }
+                        throw new Error(errorMessage);
+                    }
+
+                    // بررسی نوع محتوا
+                    const contentType = res.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/pdf')) {
+                        const errorText = await res.text();
+                        throw new Error('پاسخ سرور PDF نیست: ' + errorText);
                     }
 
                     // دریافت باینری و ایجاد دانلود
                     const blob = await res.blob();
+                    
+                    if (blob.size === 0) {
+                        throw new Error('فایل PDF خالی است');
+                    }
+
                     const url  = window.URL.createObjectURL(blob);
                     const a    = document.createElement('a');
                     a.href = url;
@@ -304,8 +325,8 @@
 
                     notify('success', 'پی‌دی‌اف آماده و دریافت شد.');
                 } catch (e) {
-                    notify('error', 'تولید پی‌دی‌اف انجام نشد.');
-                    console.log(e)
+                    notify('error', 'تولید پی‌دی‌اف انجام نشد: ' + e.message);
+                    console.error('PDF Generation Error:', e);
                 }
             }
 

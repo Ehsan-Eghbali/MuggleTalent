@@ -54,40 +54,58 @@ class LetterService
 
     public function generatePdfAndAttach(Letter $letter, string $disk = 'letters'): LetterAttachment
     {
-        $fields = $letter->fields ?? [];
+        try {
+            $fields = $letter->fields ?? [];
 
-        $dataForView = [
-            'number'           => $letter->number,
-            'issued_at'        => optional($letter->issued_at)->format('Y/m/d'),
-            'title'            => $letter->template_key === 'salary_certificate' ? 'گواهی حقوق/ضمانت' : 'گواهی اشتغال به کار',
-            'template_key'     => $letter->template_key,
-            'person_name'      => $fields['person_name'] ?? ($fields['selected_person_name'] ?? null),
-            'recipient_name'   => $fields['recipient_name'] ?? null,
-            'guarantee_amount' => $fields['guarantee_amount'] ?? null,
-            'body_html'        => $letter->body_html,
-        ];
+            $dataForView = [
+                'number'           => $letter->number,
+                'issued_at'        => optional($letter->issued_at)->format('Y/m/d'),
+                'title'            => $letter->template_key === 'salary_certificate' ? 'گواهی حقوق/ضمانت' : 'گواهی اشتغال به کار',
+                'template_key'     => $letter->template_key,
+                'person_name'      => $fields['person_name'] ?? ($fields['selected_person_name'] ?? null),
+                'recipient_name'   => $fields['recipient_name'] ?? null,
+                'guarantee_amount' => $fields['guarantee_amount'] ?? null,
+                'body_html'        => $letter->body_html,
+            ];
 
-        // رندر با mPDF
-        $pdf = \niklasravnsborg\LaravelPdf\Facades\Pdf::loadView('letters.pdf', $dataForView);
+            // رندر با mPDF
+            $pdf = \niklasravnsborg\LaravelPdf\Facades\Pdf::loadView('letters.pdf', $dataForView);
 
-        // خروجی باینری
-        $binary = $pdf->output(); // mPDF
+            // خروجی باینری
+            $binary = $pdf->output();
 
-        // ذخیره روی دیسک
-        $dir = date('Y/m/d').'/'.$letter->id;
-        $filename = 'letter-'.$letter->id.'.pdf';
-        $path = $dir.'/'.$filename;
+            // اطمینان از وجود دایرکتوری
+            $dir = date('Y/m/d').'/'.$letter->id;
+            $filename = 'letter-'.$letter->id.'.pdf';
+            $path = $dir.'/'.$filename;
 
-        Storage::disk($disk)->put($path, $binary);
+            // ایجاد دایرکتوری اگر وجود ندارد
+            Storage::disk($disk)->makeDirectory($dir);
 
-        // ثبت پیوست
-        return $letter->attachments()->create([
-            'original_name' => $filename,
-            'disk'          => $disk,
-            'path'          => $path,
-            'mime'          => 'application/pdf',
-            'size'          => Storage::disk($disk)->size($path),
-            'uploaded_by'   => $letter->created_by,
-        ]);
+            // ذخیره روی دیسک
+            Storage::disk($disk)->put($path, $binary);
+
+            // بررسی وجود فایل
+            if (!Storage::disk($disk)->exists($path)) {
+                throw new \Exception('فایل PDF ایجاد نشد');
+            }
+
+            // ثبت پیوست
+            return $letter->attachments()->create([
+                'original_name' => $filename,
+                'disk'          => $disk,
+                'path'          => $path,
+                'mime'          => 'application/pdf',
+                'size'          => Storage::disk($disk)->size($path),
+                'uploaded_by'   => $letter->created_by,
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('PDF Generation Error: ' . $e->getMessage(), [
+                'letter_id' => $letter->id,
+                'error' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
     }
 }
