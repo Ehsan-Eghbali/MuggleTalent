@@ -51,6 +51,7 @@
                     <li class="{{ request()->is('roles') ? 'active' : '' }}"><a href="/roles"> نقش ها</a></li>
                     <li class="{{ request()->is('departments') ? 'active' : '' }}"><a href="/departments"> افزودن واحد </a></li>
                     <li class="{{ request()->is('teams') ? 'active' : '' }}"><a href="/teams"> افزودن تیم </a></li>
+                    <li class="{{ request()->is('dashboard') ? 'active' : '' }}"><a href="/dashboard"> جعبه ابزار </a></li>
                 </ul>
             </li>
         </ul>

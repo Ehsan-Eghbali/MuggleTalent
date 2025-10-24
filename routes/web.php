@@ -181,12 +181,12 @@ Route::get('/letters_archive', [App\Http\Controllers\ArchiveController::class, '
 
 // روت برای نمایش صفحه مدیریت نقش‌ها
 Route::get('/roles', function () {
-    // داده‌های فیک برای نقش‌ها
+    // داده‌های فیک برای نقش‌ها (بدون نقش کارمند)
     $roles = [
-        ['id' => 1, 'name' => 'کارمند'],
-        ['id' => 2, 'name' => 'کارشناس منابع انسانی'],
+        ['id' => 1, 'name' => 'سوپر ادمین'],
+        ['id' => 2, 'name' => 'ادمین'],
         ['id' => 3, 'name' => 'مدیر'],
-        ['id' => 4, 'name' => 'ادمین کل'],
+        ['id' => 4, 'name' => 'کارشناس منابع انسانی'],
     ];
 
     // لیست تمام دسترسی‌های ممکن در سیستم
@@ -197,11 +197,15 @@ Route::get('/roles', function () {
         'مدیریت پنل' => ['view'],
     ];
 
-    // لیست کاربران برای نمایش
+    // لیست کاربران برای نمایش با نقش‌های جدید
     $users = [
-        ['id' => 1, 'name' => 'پوریا نیک وند', 'role' => 'ادمین کل'],
-        ['id' => 2, 'name' => 'سبحان فروغی', 'role' => 'کارشناس منابع انسانی'],
-        ['id' => 3, 'name' => 'سید امین احمدی', 'role' => 'کارمند'],
+        ['id' => 1, 'name' => 'محمد مهدی مهربان نیا', 'role' => 'سوپر ادمین'],
+        ['id' => 2, 'name' => 'کتایون حسینی شاد', 'role' => 'سوپر ادمین'],
+        ['id' => 3, 'name' => 'نغمه عبادی', 'role' => 'ادمین'],
+        ['id' => 4, 'name' => 'حمیدرضا ایزدی', 'role' => 'کارشناس منابع انسانی'],
+        ['id' => 5, 'name' => 'هاینه قاسم زاده', 'role' => 'کارشناس منابع انسانی'],
+        ['id' => 6, 'name' => 'رضا کیانی', 'role' => 'کارشناس منابع انسانی'],
+        ['id' => 7, 'name' => 'حسام همتی نیا', 'role' => 'کارشناس منابع انسانی'],
     ];
 
     return view('dashboard.roles.index', [
@@ -217,10 +221,9 @@ Route::get('/roles', function () {
 Route::get('/departments', function () {
     // داده‌های فیک برای واحدها
     $departments = [
-        ['id' => 1, 'name' => 'فنی و مهندسی'],
-        ['id' => 2, 'name' => 'منابع انسانی'],
-        ['id' => 3, 'name' => 'مالی و اداری'],
-        ['id' => 4, 'name' => 'فروش و بازاریابی'],
+  ['id' => 2, 'name' => 'منابع انسانی'],
+       
+       
     ];
 
     return view('dashboard.departments.index', ['departments' => $departments]);
@@ -232,10 +235,8 @@ Route::get('/departments', function () {
 Route::get('/teams', function () {
     // داده‌های فیک برای تیم‌ها
     $teams = [
-        ['id' => 1, 'name' => 'تیم فرانت‌اند'],
-        ['id' => 2, 'name' => 'تیم بک‌اند'],
-        ['id' => 3, 'name' => 'تیم دواپس (DevOps)'],
-        ['id' => 4, 'name' => 'تیم محصول'],
+        ['id' => 1, 'name' => 'تیم منابع انسانی'],
+
     ];
 
     return view('dashboard.teams.index', ['teams' => $teams]);
@@ -249,43 +250,18 @@ Route::get('/payrolls', function () {
     $payrolls = [
         [
             'id' => 1,
-            'personnel_name' => 'پوریا نیک وند',
+            'personnel_name' => 'محمد مهدی مهربان نیا  ',
             'base_salary' => '۱۵۰,۰۰۰,۰۰۰',
             'seniority' => '۵,۰۰۰,۰۰۰',
             'housing' => '۱۰,۰۰۰,۰۰۰',
-            'marriage' => '۰',
+            'marriage' => '۵,۰۰۰,۰۰۰',
             'children' => '۰',
             'responsibility' => '۲۰,۰۰۰,۰۰۰',
             'food' => '۳,۰۰۰,۰۰۰',
-            'informal' => '۱۰,۰۰۰,۰۰۰',
+            'informal' => '۵۰,۰۰۰,۰۰۰',
             'level' => 'سینیور ۱', // فیلد جدید
         ],
-        [
-            'id' => 2,
-            'personnel_name' => 'سبحان فروغی',
-            'base_salary' => '۱۲۰,۰۰۰,۰۰۰',
-            'seniority' => '۳,۰۰۰,۰۰۰',
-            'housing' => '۱۰,۰۰۰,۰۰۰',
-            'marriage' => '۵,۰۰۰,۰۰۰',
-            'children' => '۲,۵۰۰,۰۰۰',
-            'responsibility' => '۰',
-            'food' => '۳,۰۰۰,۰۰۰',
-            'informal' => '۵,۰۰۰,۰۰۰',
-            'level' => 'جونیور ۳', // فیلد جدید
-        ],
-        [
-            'id' => 3,
-            'personnel_name' => 'سید امین احمدی',
-            'base_salary' => '۱۴۰,۰۰۰,۰۰۰',
-            'seniority' => '۴,۵۰۰,۰۰۰',
-            'housing' => '۱۰,۰۰۰,۰۰۰',
-            'marriage' => '۰',
-            'children' => '۰',
-            'responsibility' => '۱۵,۰۰۰,۰۰۰',
-            'food' => '۳,۰۰۰,۰۰۰',
-            'informal' => '۸,۰۰۰,۰۰۰',
-            'level' => 'میدلول ۲', // فیلد جدید
-        ],
+        
     ];
 
     return view('dashboard.payrolls.index', ['payrolls' => $payrolls]);
@@ -300,19 +276,12 @@ Route::get('/payroll-history', function () {
         [
             'id' => 1,
             'date' => '۱۴۰۴/۰۵/۱۰',
-            'personnel_name' => 'پوریا نیک وند',
+            'personnel_name' => 'محمد مهدی مهربان نیا  ',
             'change_type' => 'تغییر رده شغلی',
-            'details' => 'ارتقا به سطح کارشناس ارشد.',
+            'details' => 'تست شماره یک.',
             'user' => 'مدیر سیستم'
         ],
-        [
-            'id' => 2,
-            'date' => '۱۴۰۴/۰۴/۲۰',
-            'personnel_name' => 'سبحان فروغی',
-            'change_type' => 'تغییر حقوق',
-            'details' => 'حقوق پایه از ۱۲۰,۰۰۰,۰۰۰ به ۱۴۰,۰۰۰,۰۰۰ تغییر یافت.',
-            'user' => 'مدیر منابع انسانی'
-        ],
+        
     ];
 
     return view('dashboard.payrolls.history', ['logs' => $history_logs]);
