@@ -81,4 +81,9 @@ class employees extends Model
     {
         return $this->hasOne(Social::class, 'employee_id');
     }
+
+    public function payroll(): HasOne
+    {
+        return $this->hasOne(Payroll::class, 'employee_id');
+    }
 }

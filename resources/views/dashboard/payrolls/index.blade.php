@@ -71,13 +71,16 @@
     <div class="modal-content">
         <span class="modal-close" id="close-modal-btn">&times;</span>
         <h2 id="modal-title">جزئیات حقوق و دستمزد</h2>
-        <form action="#" method="POST">
+        <form id="payroll-form" method="POST">
+            @csrf
+            <input type="hidden" name="_method" value="PUT" id="form-method">
+            <input type="hidden" name="payroll_id" id="payroll_id">
             <div class="modal-grid">
                 {{-- فیلد جدید برای "رده" --}}
                 <div class="payroll-item">
                     <label class="label">رده</label>
                     <span class="view-text" data-field="level"></span>
-                    <select class="edit-input" data-field="level">
+                    <select class="edit-input" data-field="level" name="level">
                         <option>جونیور ۱</option>
                         <option>جونیور ۲</option>
                         <option>جونیور ۳</option>
@@ -93,60 +96,62 @@
                 <div class="payroll-item">
                     <label class="label">حقوق ۳۰ روزه</label>
                     <span class="view-text" data-field="base_salary"></span>
-                    <input type="text" class="edit-input" data-field="base_salary">
+                    <input type="text" class="edit-input" data-field="base_salary" name="base_salary">
                 </div>
                 <div class="payroll-item">
                     <label class="label">پایه سنوات</label>
                     <span class="view-text" data-field="seniority"></span>
-                    <input type="text" class="edit-input" data-field="seniority">
+                    <input type="text" class="edit-input" data-field="seniority" name="seniority">
                 </div>
                 <div class="payroll-item">
                     <label class="label">حق مسکن</label>
                     <span class="view-text" data-field="housing"></span>
-                    <input type="text" class="edit-input" data-field="housing">
+                    <input type="text" class="edit-input" data-field="housing" name="housing">
                 </div>
                 <div class="payroll-item">
                     <label class="label">حق تاهل</label>
                     <span class="view-text" data-field="marriage"></span>
-                    <input type="text" class="edit-input" data-field="marriage">
+                    <input type="text" class="edit-input" data-field="marriage" name="marriage">
                 </div>
                 <div class="payroll-item">
                     <label class="label">حق اولاد</label>
                     <span class="view-text" data-field="children"></span>
-                    <input type="text" class="edit-input" data-field="children">
+                    <input type="text" class="edit-input" data-field="children" name="children">
                 </div>
                 <div class="payroll-item">
                     <label class="label">حق مسئولیت</label>
                     <span class="view-text" data-field="responsibility"></span>
-                    <input type="text" class="edit-input" data-field="responsibility">
+                    <input type="text" class="edit-input" data-field="responsibility" name="responsibility">
                 </div>
                 <div class="payroll-item">
                     <label class="label">خوار و بار</label>
                     <span class="view-text" data-field="food"></span>
-                    <input type="text" class="edit-input" data-field="food">
+                    <input type="text" class="edit-input" data-field="food" name="food">
                 </div>
                 <div class="payroll-item">
                     <label class="label">غیررسمی</label>
                     <span class="view-text" data-field="informal"></span>
-                    <input type="text" class="edit-input" data-field="informal">
+                    <input type="text" class="edit-input" data-field="informal" name="informal">
                 </div>
                 
                 {{-- فیلدهای مربوط به ثبت تغییرات (فقط در حالت ویرایش) --}}
                 <div class="payroll-item modal-full-width-item edit-input">
                     <label for="change_reason" class="label">علت تغییر را انتخاب کنید</label>
-                    <select id="change_reason" class="edit-input">
+                    <select id="change_reason" name="change_reason" class="edit-input" required>
                         <option value="تغییر رده شغلی">تغییر رده شغلی</option>
                         <option value="تغییر حقوق">تغییر حقوق</option>
+                        <option value="افزایش سالانه">افزایش سالانه</option>
+                        <option value="تغییر وضعیت">تغییر وضعیت</option>
                     </select>
                 </div>
                 <div class="payroll-item modal-full-width-item edit-input">
                     <label for="change_details" class="label">جزئیات تغییر (اختیاری)</label>
-                    <textarea id="change_details" class="edit-input" rows="3" placeholder="مثال: افزایش حقوق سالانه"></textarea>
+                    <textarea id="change_details" name="change_details" class="edit-input" rows="3" placeholder="مثال: افزایش حقوق سالانه"></textarea>
                 </div>
             </div>
             <div class="modal-buttons">
                 <button type="button" class="btn-secondary" id="cancel-modal-btn">بستن</button>
-                <button type="submit" class="btn-success">ذخیره تغییرات</button>
+                <button type="submit" class="btn-success edit-input">ذخیره تغییرات</button>
             </div>
         </form>
     </div>
@@ -154,7 +159,6 @@
 @endsection
 
 @section('scripts')
-{{-- اسکریپت بدون تغییر --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('payroll-modal');
@@ -162,6 +166,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeBtn = document.getElementById('close-modal-btn');
     const cancelBtn = document.getElementById('cancel-modal-btn');
     const actionIcons = document.querySelectorAll('.action-icon');
+    const form = document.getElementById('payroll-form');
+    const payrollIdInput = document.getElementById('payroll_id');
 
     function openModal(mode, rowData) {
         modalTitle.textContent = mode === 'view' ? `مشاهده جزئیات: ${rowData.name}` : `ویرایش حقوق: ${rowData.name}`;
@@ -169,12 +175,23 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.classList.remove('modal-view-mode', 'modal-edit-mode');
         modal.classList.add(mode === 'view' ? 'modal-view-mode' : 'modal-edit-mode');
 
+        // تنظیم ID حقوق برای فرم
+        payrollIdInput.value = rowData.id;
+        form.action = `/payrolls/${rowData.id}`;
+
         for (const field in rowData) {
             const viewElement = modal.querySelector(`.view-text[data-field="${field}"]`);
             if (viewElement) viewElement.textContent = rowData[field];
             
             const editElement = modal.querySelector(`[data-field="${field}"].edit-input`);
-            if (editElement) editElement.value = rowData[field];
+            if (editElement) {
+                // حذف کاما و تبدیل به عدد برای فیلدهای عددی
+                let value = rowData[field];
+                if (field !== 'level' && field !== 'name' && field !== 'id' && field !== 'employee_id') {
+                    value = value.toString().replace(/,/g, '');
+                }
+                editElement.value = value;
+            }
         }
         
         modal.style.display = 'flex';
@@ -187,6 +204,38 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = this.closest('tr');
             const rowData = row.dataset;
             openModal(mode, rowData);
+        });
+    });
+
+    // ارسال فرم با AJAX
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const payrollId = payrollIdInput.value;
+        
+        fetch(`/payrolls/${payrollId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                'Accept': 'application/json',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                closeModal();
+                // بارگذاری مجدد صفحه برای نمایش تغییرات
+                window.location.reload();
+            } else {
+                alert(data.message || 'خطا در ذخیره تغییرات');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('خطا در ارتباط با سرور');
         });
     });
 

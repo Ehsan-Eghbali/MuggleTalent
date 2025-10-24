@@ -244,47 +244,13 @@ Route::get('/teams', function () {
 
 // routes/web.php
 
-// روت برای نمایش لیست حقوق و دستمزد
-Route::get('/payrolls', function () {
-    // داده‌های فیک برای لیست حقوق
-    $payrolls = [
-        [
-            'id' => 1,
-            'personnel_name' => 'محمد مهدی مهربان نیا  ',
-            'base_salary' => '۱۵۰,۰۰۰,۰۰۰',
-            'seniority' => '۵,۰۰۰,۰۰۰',
-            'housing' => '۱۰,۰۰۰,۰۰۰',
-            'marriage' => '۵,۰۰۰,۰۰۰',
-            'children' => '۰',
-            'responsibility' => '۲۰,۰۰۰,۰۰۰',
-            'food' => '۳,۰۰۰,۰۰۰',
-            'informal' => '۵۰,۰۰۰,۰۰۰',
-            'level' => 'سینیور ۱', // فیلد جدید
-        ],
-        
-    ];
-
-    return view('dashboard.payrolls.index', ['payrolls' => $payrolls]);
-});
-
-// routes/web.php
-
-// روت برای نمایش تاریخچه تغییرات حقوق
-Route::get('/payroll-history', function () {
-    // داده‌های فیک برای تاریخچه
-    $history_logs = [
-        [
-            'id' => 1,
-            'date' => '۱۴۰۴/۰۵/۱۰',
-            'personnel_name' => 'محمد مهدی مهربان نیا  ',
-            'change_type' => 'تغییر رده شغلی',
-            'details' => 'تست شماره یک.',
-            'user' => 'مدیر سیستم'
-        ],
-        
-    ];
-
-    return view('dashboard.payrolls.history', ['logs' => $history_logs]);
+// روت‌های مدیریت حقوق و دستمزد
+Route::middleware('auth')->group(function () {
+    Route::get('/payrolls', [App\Http\Controllers\PayrollController::class, 'index'])->name('payrolls.index');
+    Route::post('/payrolls', [App\Http\Controllers\PayrollController::class, 'store'])->name('payrolls.store');
+    Route::put('/payrolls/{id}', [App\Http\Controllers\PayrollController::class, 'update'])->name('payrolls.update');
+    Route::delete('/payrolls/{id}', [App\Http\Controllers\PayrollController::class, 'destroy'])->name('payrolls.destroy');
+    Route::get('/payroll-history', [App\Http\Controllers\PayrollController::class, 'history'])->name('payrolls.history');
 });
 
 Route::get('/reports', function () {
