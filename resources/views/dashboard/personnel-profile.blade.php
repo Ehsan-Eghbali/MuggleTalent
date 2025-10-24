@@ -154,27 +154,29 @@
                     <div class="form-group"><label for="direct_manager">مدیر مستقیم</label><input type="text" id="direct_manager" name="direct_manager" value="{{ $employee->direct_manager ?? '' }}"></div>
                     
                     <div class="form-group">
-                        <label for="cooperation_type">نوع همکاری</label>
+                        <label for="cooperation_type">نوع همکاری (تمام وقت / پاره وقت)</label>
                         <select id="cooperation_type" name="cooperation_type">
-                            @php $coopType = $employee->work_status ?? ''; @endphp
+                            @php $coopType = $employee->contract_type ?? ''; @endphp
                             <option value="تمام وقت" {{ $coopType == 'تمام وقت' ? 'selected' : '' }}>تمام وقت</option>
                             <option value="پاره وقت" {{ $coopType == 'پاره وقت' ? 'selected' : '' }}>پاره وقت</option>
-                            <option value="پروژه ای" {{ $coopType == 'پروژه ای' ? 'selected' : '' }}>پروژه ای</option>
+                            <option value="پروژه ای" {{ $coopType == 'پروژه ای' || $coopType == 'دورکاری' ? 'selected' : '' }}>پروژه ای</option>
+                            <option value="کارآموزی" {{ $coopType == 'کارآموزی' ? 'selected' : '' }}>کارآموزی</option>
+                            <option value="آزمایشی" {{ $coopType == 'آزمایشی' ? 'selected' : '' }}>آزمایشی</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="work_model">شکل همکاری</label>
+                        <label for="work_model">شکل همکاری (حضوری / دورکار)</label>
                         <select id="work_model" name="work_model">
-                            @php $workModel = $employee->formality ?? ''; @endphp
+                            @php $workModel = $employee->work_status ?? ''; @endphp
                             <option value="حضوری" {{ $workModel == 'حضوری' ? 'selected' : '' }}>حضوری</option>
-                            <option value="هیبرید" {{ $workModel == 'هیبرید' ? 'selected' : '' }}>هیبرید</option>
+                            <option value="هیبرید" {{ $workModel == 'هیبریدی' || $workModel == 'هیبرید' ? 'selected' : '' }}>هیبرید</option>
                             <option value="دورکار" {{ $workModel == 'دورکار' ? 'selected' : '' }}>دورکار</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="contract_type">نوع قرارداد</label>
+                        <label for="contract_type">نوع قرارداد (رسمی / غیررسمی)</label>
                         <select id="contract_type" name="contract_type">
-                             @php $contractType = $employee->contract_type ?? ''; @endphp
+                             @php $contractType = $employee->formality ?? ''; @endphp
                             <option value="رسمی" {{ $contractType == 'رسمی' ? 'selected' : '' }}>رسمی</option>
                             <option value="غیررسمی" {{ $contractType == 'غیررسمی' ? 'selected' : '' }}>غیررسمی</option>
                         </select>
@@ -183,8 +185,9 @@
                         <label for="nda_type">نوع قرارداد محرمانگی</label>
                         <select id="nda_type" name="nda_type">
                             @php $ndaType = optional($employee->ndaContract)->nda_type ?? ''; @endphp
-                            <option value="فنی" {{ $ndaType == 'فنی' ? 'selected' : '' }}>فنی</option>
-                            <option value="غیر فنی" {{ $ndaType == 'غیر فنی' ? 'selected' : '' }}>غیر فنی</option>
+                            <option value="">انتخاب کنید</option>
+                            <option value="استاندارد" {{ $ndaType == 'استاندارد' ? 'selected' : '' }}>استاندارد</option>
+                            <option value="سفارشی" {{ $ndaType == 'سفارشی' ? 'selected' : '' }}>سفارشی</option>
                         </select>
                     </div>
 
@@ -197,7 +200,9 @@
                         <select id="employment_status_select" name="employment_status_select">
                             @php $statusSelect = optional($employee->contract)->cooperation_status ?? ''; @endphp
                             <option value="فعال" {{ $statusSelect == 'فعال' ? 'selected' : '' }}>فعال</option>
-                            <option value="پایان یافته" {{ $statusSelect == 'پایان یافته' ? 'selected' : '' }}>پایان یافته</option>
+                            <option value="پاره وقت" {{ $statusSelect == 'پاره وقت' ? 'selected' : '' }}>پاره وقت</option>
+                            <option value="تمام وقت" {{ $statusSelect == 'تمام وقت' ? 'selected' : '' }}>تمام وقت</option>
+                            <option value="خارج شده" {{ $statusSelect == 'خارج شده' || $statusSelect == 'پایان یافته' ? 'selected' : '' }}>خارج شده</option>
                         </select>
                     </div>
 
@@ -282,11 +287,16 @@
 @endsection
 
 @section('scripts')
-    {{-- کتابخانه‌ها و منطق جاوا اسکریپت کاملاً حفظ شده‌اند و نیازی به تغییر ندارند --}}
-    <script src="{{ asset('js/libs/moment.min.js') }}"></script>
-    <script src="{{ asset('js/libs/moment-jalaali.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/persian-datepicker/dist/js/persian-datepicker.min.js"></script>
+    {{-- بارگذاری jQuery از CDN --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    {{-- کتابخانه‌های moment.js از CDN --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-jalaali/0.9.6/moment-jalaali.min.js"></script>
+    
+    {{-- کتابخانه تقویم شمسی --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker/dist/css/persian-datepicker.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/persian-datepicker/dist/js/persian-datepicker.min.js"></script>
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {

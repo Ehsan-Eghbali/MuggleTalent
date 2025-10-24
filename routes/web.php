@@ -167,41 +167,15 @@ Route::prefix('letters')->name('letters.')->middleware(['web'])->group(function 
     Route::delete('{letter}/attachments/{attachment}', [LetterController::class, 'destroyAttachment'])->name('attachments.destroy');
 });
 
-// روت برای نمایش صفحه آرشیو نامه ها
-Route::get('/letters_archive', function () {
-    // داده‌های فیک برای آرشیو
-    $archived_letters = [
-        [
-            'id' => 1,
-            'letter_number' => '۱۴۰۴-۲۵۶',
-            'personnel_name' => 'پوریا نیک وند',
-            'personnel_code' => '۹۴۰۴۰',
-            'letter_type' => 'گواهی اشتغال به کار',
-            'issue_date' => '۱۴۰۴/۰۵/۱۵',
-            'file_path' => '#' // لینک دانلود نامه
-        ],
-        [
-            'id' => 2,
-            'letter_number' => '۱۴۰۴-۲۵۷',
-            'personnel_name' => 'سبحان فروغی',
-            'personnel_code' => '۰۰۰۱',
-            'letter_type' => 'گواهی کسر از حقوق',
-            'issue_date' => '۱۴۰۴/۰۵/۱۸',
-            'file_path' => '#'
-        ],
-        [
-            'id' => 3,
-            'letter_number' => '۱۴۰۴-۲۵۸',
-            'personnel_name' => 'پوریا نیک وند',
-            'personnel_code' => '۹۴۰۴۰',
-            'letter_type' => 'گواهی اشتغال به کار',
-            'issue_date' => '۱۴۰۴/۰۶/۰۲',
-            'file_path' => '#'
-        ],
-    ];
-
-    return view('dashboard.archive', ['letters' => $archived_letters]);
+// روت‌های آرشیو نامه‌ها
+Route::prefix('archive')->name('archive.')->group(function () {
+    Route::get('/', [App\Http\Controllers\ArchiveController::class, 'index'])->name('index');
+    Route::get('/{letter}/download', [App\Http\Controllers\ArchiveController::class, 'download'])->name('download');
+    Route::get('/{letter}', [App\Http\Controllers\ArchiveController::class, 'show'])->name('show');
 });
+
+// روت قدیمی برای سازگاری
+Route::get('/letters_archive', [App\Http\Controllers\ArchiveController::class, 'index']);
 
 // routes/web.php
 

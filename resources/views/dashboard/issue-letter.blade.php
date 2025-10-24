@@ -3,6 +3,7 @@
 @section('page_styles')
     {{-- اگر نیاز دارید، این فایل را هم ایجاد کنید (در ادامه نمونه ساده می‌آید) --}}
     <link rel="stylesheet" href="{{ asset('css/pages/dashboard/issue-letter.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
@@ -46,8 +47,9 @@
 
                     {{-- تاریخ صدور (اختیاری) --}}
                     <div class="form-group">
-                        <label for="issued-at">تاریخ صدور (میلادی)</label>
-                        <input type="date" id="issued-at" value="{{ now()->format('Y-m-d') }}">
+                        <label for="issued-at">تاریخ صدور (شمسی)</label>
+                        <input type="text" id="issued-at" class="persian-date-picker" placeholder="انتخاب تاریخ شمسی" readonly>
+                        <input type="hidden" id="issued-at-gregorian" name="issued_at">
                     </div>
                 </div>
             </div>
@@ -94,6 +96,11 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment-jalaali@0.10.0/moment-jalaali.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
     <script>
         /*
           توضیح کلی:
@@ -192,7 +199,14 @@
                 // عدد نمونهٔ نامه برای پیش‌نمایش
                 const sampleNo = '۱۴۰۴/پ/۰۱۰۱';
                 // تاریخ نمایشی
-                const todayFa = new Date().toLocaleDateString('fa-IR');
+                let persianDateValue = document.getElementById('issued-at').value;
+                if (!persianDateValue && typeof persianDate !== 'undefined') {
+                    const pDate = new persianDate();
+                    const jYear = pDate.year();
+                    const jMonth = String(pDate.month() + 1).padStart(2, '0');
+                    const jDay = String(pDate.date()).padStart(2, '0');
+                    persianDateValue = `${jYear}/${jMonth}/${jDay}`;
+                }
 
                 let title = 'گواهی اشتغال به کار';
                 if (key === 'salary_certificate') title = 'گواهی حقوق/ضمانت';
@@ -200,7 +214,7 @@
                 let html = `
             <div style="direction: rtl; text-align:right; font-family:vazirmatn; font-size:14px;">
                 <p><strong>شماره نامه:</strong> ${sampleNo}</p>
-                <p><strong>تاریخ:</strong> ${todayFa}</p>
+                <p><strong>تاریخ:</strong> ${persianDateValue}</p>
                 <h3 style="text-align:center;">${title}</h3>
                 <p>بدینوسیله گواهی می‌شود، جناب آقای/خانم <strong>${prsName}</strong> در این شرکت مشغول به کار می‌باشند.</p>
         `;
@@ -234,7 +248,7 @@
                     personnel_id: Number(prsSelect.value),
                     template_key: tplSelect.value,
                     number: '', // اگر خالی باشد، سرور تولید می‌کند
-                    issued_at: issuedAt.value || null,
+                    issued_at: document.getElementById('issued-at-gregorian').value || null,
                     fields: fields,
                     body_html: previewBox.innerHTML, // همین اچ‌تی‌ام‌ال را بفرستید (دلخواه)
                     status: status, // draft | final
@@ -280,6 +294,7 @@
                         return;
                     }
 
+                    console.log('Payload being sent:', payload);
                     notify('info', 'در حال تولید PDF...');
 
                     const res = await fetch(`{{ route('letters.generate_download') }}`, {
@@ -288,27 +303,39 @@
                         body: JSON.stringify(payload),
                     });
 
+                    // بررسی نوع محتوا
+                    const contentType = res.headers.get('content-type');
+                    console.log('Response Content-Type:', contentType);
+
+                    // اگر پاسخ خطا بود
                     if (!res.ok) {
                         let errorMessage = 'خطا در تولید پی‌دی‌اف';
+                        
+                        // ابتدا محتوا را به text تبدیل می‌کنیم
+                        const responseText = await res.text();
+                        console.log('Error Response:', responseText);
+                        
+                        // سعی می‌کنیم ببینیم JSON است یا نه
                         try {
-                            const errorData = await res.json();
-                            errorMessage = errorData.error || errorMessage;
+                            const errorData = JSON.parse(responseText);
+                            errorMessage = errorData.error || errorData.message || errorMessage;
                         } catch {
-                            const text = await res.text();
-                            errorMessage = text || errorMessage;
+                            // اگر JSON نبود، همان text را نمایش می‌دهیم
+                            errorMessage = responseText.substring(0, 200) || errorMessage;
                         }
                         throw new Error(errorMessage);
                     }
 
-                    // بررسی نوع محتوا
-                    const contentType = res.headers.get('content-type');
+                    // اگر پاسخ PDF نیست
                     if (!contentType || !contentType.includes('application/pdf')) {
                         const errorText = await res.text();
-                        throw new Error('پاسخ سرور PDF نیست: ' + errorText);
+                        console.log('Non-PDF Response:', errorText.substring(0, 500));
+                        throw new Error('پاسخ سرور PDF نیست. لطفاً Console را بررسی کنید.');
                     }
 
                     // دریافت باینری و ایجاد دانلود
                     const blob = await res.blob();
+                    console.log('PDF Blob size:', blob.size);
                     
                     if (blob.size === 0) {
                         throw new Error('فایل PDF خالی است');
@@ -317,7 +344,7 @@
                     const url  = window.URL.createObjectURL(blob);
                     const a    = document.createElement('a');
                     a.href = url;
-                    a.download = 'letter.pdf';
+                    a.download = 'letter_' + Date.now() + '.pdf';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -396,6 +423,59 @@
                 } catch (e) {
                     notify('error', 'حذف پیوست انجام نشد.');
                     console.error(e);
+                }
+            }
+
+            // راه‌اندازی تقویم شمسی
+            if (typeof $.fn.persianDatepicker !== 'undefined') {
+                $("#issued-at").persianDatepicker({
+                    format: 'YYYY/MM/DD',
+                    altField: '#issued-at-gregorian',
+                    altFormat: 'X', // Unix timestamp
+                    observer: true,
+                    timePicker: {
+                        enabled: false
+                    },
+                    onSelect: function(unix) {
+                        // تبدیل unix timestamp به تاریخ میلادی
+                        const date = new Date(unix);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const gregorianDate = `${year}-${month}-${day}`;
+                        
+                        // تنظیم فیلد hidden
+                        document.getElementById('issued-at-gregorian').value = gregorianDate;
+                        
+                        console.log('Persian Date Selected:', $("#issued-at").val());
+                        console.log('Gregorian Date:', gregorianDate);
+                        
+                        updatePreview();
+                    }
+                });
+                
+                // تنظیم تاریخ امروز به صورت شمسی و میلادی
+                if (typeof persianDate !== 'undefined') {
+                    const today = new Date();
+                    const pDate = new persianDate();
+                    
+                    // دریافت اجزای تاریخ شمسی
+                    const jYear = pDate.year();
+                    const jMonth = String(pDate.month() + 1).padStart(2, '0'); // ماه از 0 شروع می‌شود
+                    const jDay = String(pDate.date()).padStart(2, '0');
+                    const persianToday = `${jYear}/${jMonth}/${jDay}`;
+                    
+                    // تاریخ میلادی
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const gregorianToday = `${year}-${month}-${day}`;
+                    
+                    $("#issued-at").val(persianToday);
+                    $("#issued-at-gregorian").val(gregorianToday);
+                    
+                    console.log('✅ Initial Persian Date:', persianToday);
+                    console.log('✅ Initial Gregorian Date:', gregorianToday);
                 }
             }
 

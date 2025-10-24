@@ -6,6 +6,7 @@ use App\Models\Letter;
 use App\Models\LetterAttachment;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Morilog\Jalali\Jalalian;
 
 class LetterService
 {
@@ -32,7 +33,7 @@ class LetterService
             $title = 'گواهی حقوق/ضمانت';
         }
 
-        $todayFa = verta($letter->issued_at ?? now())->format('Y/n/j'); // اگر پکیج جلالی ندارید، تاریخ میلادی بگذارید
+        $todayFa = Jalalian::fromCarbon($letter->issued_at ?? now())->format('Y/n/j');
 
         $html = '
             <div style="direction: rtl; font-family: vazirmatn; font-size: 14px; text-align: right;">
@@ -59,7 +60,7 @@ class LetterService
 
             $dataForView = [
                 'number'           => $letter->number,
-                'issued_at'        => optional($letter->issued_at)->format('Y/m/d'),
+                'issued_at'        => Jalalian::fromCarbon($letter->issued_at ?? now())->format('Y/n/j'),
                 'title'            => $letter->template_key === 'salary_certificate' ? 'گواهی حقوق/ضمانت' : 'گواهی اشتغال به کار',
                 'template_key'     => $letter->template_key,
                 'person_name'      => $fields['person_name'] ?? ($fields['selected_person_name'] ?? null),

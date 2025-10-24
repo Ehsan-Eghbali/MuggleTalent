@@ -27,4 +27,9 @@ class Letter extends Model
     {
         return $this->hasMany(LetterAttachment::class);
     }
+
+    public function personnel()
+    {
+        return $this->belongsTo(employees::class, 'personnel_id');
+    }
 }
