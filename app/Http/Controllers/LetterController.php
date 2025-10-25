@@ -103,7 +103,16 @@ class LetterController extends Controller
     public function generateAndDownload(StoreLetterRequest $request, LetterService $service)
     {
         try {
+            // لاگ درخواست ورودی
+            \Log::info('PDF Generation Request Started', [
+                'all_data' => $request->all(),
+                'user_id' => $request->user()->id ?? null,
+            ]);
+
             $data = $request->validated();
+            
+            \Log::info('Request Validated Successfully', ['validated_data' => $data]);
+            
             $data['created_by'] = $request->user()->id ?? 0;
             $data['status'] = 'final'; // مستقیم نهایی
 
@@ -111,8 +120,17 @@ class LetterController extends Controller
                 if (empty($data['number'])) {
                     $data['number'] = $service->generateNumber();
                 }
+                
+                \Log::info('Creating letter', ['data' => $data]);
+                
                 $letter = Letter::create($data);
+                
+                \Log::info('Letter created', ['letter_id' => $letter->id]);
+                
                 $service->generatePdfAndAttach($letter); // پیوست پی‌دی‌اف
+                
+                \Log::info('PDF attached successfully');
+                
                 return $letter;
             });
 
@@ -130,16 +148,37 @@ class LetterController extends Controller
                 return response()->json(['error' => 'فایل PDF روی دیسک وجود ندارد'], 404);
             }
 
+            \Log::info('Downloading PDF', ['path' => $pdf->path]);
+
             return Storage::disk($pdf->disk)->download($pdf->path, $pdf->original_name);
 
-        } catch (\Exception $e) {
-            \Log::error('PDF Generation and Download Error: ' . $e->getMessage(), [
-                'request_data' => $request->validated(),
-                'error' => $e->getTraceAsString()
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation Error in PDF Generation', [
+                'errors' => $e->errors(),
+                'message' => $e->getMessage(),
             ]);
             
             return response()->json([
-                'error' => 'خطا در تولید PDF: ' . $e->getMessage()
+                'error' => 'خطای اعتبارسنجی',
+                'validation_errors' => $e->errors(),
+                'message' => $e->getMessage()
+            ], 422);
+            
+        } catch (\Exception $e) {
+            \Log::error('PDF Generation and Download Error', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'request_data' => $request->all(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'error' => 'خطا در تولید PDF',
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => config('app.debug') ? $e->getTraceAsString() : 'Enable debug mode to see trace'
             ], 500);
         }
     }
