@@ -111,7 +111,7 @@
             </div>
             <div class="tools-grid">
                 <a href="https://hrcando.ir/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/hrcando.png') }}" alt="کندو استخدام"></div>
+                    <div class="tool-icon"><img src="{{ asset('images/icons/hrcando.svg') }}" alt="کندو استخدام"></div>
                     <span class="tool-name">کندو</span>
                 </a>
                 <a href="https://jobinja.ir/" class="tool-card" target="_blank">
