@@ -32,7 +32,7 @@ return [
     | مسیر فایل‌های موقت
     |--------------------------------------------------------------------------
     */
-    'temp_dir' => storage_path('app/pdf-temp'),
+    'temp_dir' => storage_path('app/mpdf'),
     'pdf_a' => false,
 
     /*

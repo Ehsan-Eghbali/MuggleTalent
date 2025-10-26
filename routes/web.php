@@ -288,4 +288,13 @@ Route::get('/reports/recruitment', function () {
     return view('dashboard.reports.recruitment');
 });
 
+// PDF Health Check Routes
+Route::get('/admin/pdf-health-check', [App\Http\Controllers\PdfHealthCheckController::class, 'page'])
+    ->middleware('auth')
+    ->name('pdf.health-check');
+
+Route::get('/api/pdf-health-check', [App\Http\Controllers\PdfHealthCheckController::class, 'check'])
+    ->middleware('auth')
+    ->name('pdf.health-check.api');
+
 require __DIR__ . '/auth.php';
