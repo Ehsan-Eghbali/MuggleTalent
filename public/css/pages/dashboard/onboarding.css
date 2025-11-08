@@ -1,0 +1,244 @@
+/* ==================================
+   استایل‌های اصلی کارت و جدول
+   (این بخش در فایل قبلی شما وجود نداشت)
+   ================================== */
+.report-table-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 1.5rem; /* فاصله از کارت‌های آماری */
+}
+
+.report-table-card h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+}
+
+.icon-mr {
+    margin-left: 0.75rem;
+    color: #4b5563;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* مهم برای خطوط جداکننده */
+    text-align: right;
+}
+
+th, td {
+    padding: 1rem; /* پدینگ کلید زیبایی جدول است */
+    border-bottom: 1px solid #e5e7eb; /* خطوط افقی نرم */
+    vertical-align: middle; /* <-- این کلید حل مشکل هم‌ترازی است */
+}
+
+thead th {
+    background-color: #f9fafb;
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom-width: 2px; /* خط ضخیم‌تر برای هدر */
+}
+
+tbody tr:last-child td {
+    border-bottom: none; /* حذف خط آخر */
+}
+
+tbody tr:hover {
+    background-color: #f9fafb; /* افکت هاور */
+}
+
+/* کلاس کمکی برای تراز وسط */
+.text-center {
+    text-align: center;
+}
+
+
+/* ==================================
+   استایل‌های رصد آنبوردینگ (تگ‌ها و دکمه‌ها)
+   ================================== */
+
+.status-badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+    min-width: 90px;
+}
+
+.status-completed {
+    background-color: #dcfce7; /* سبز */
+    color: #166534;
+}
+
+.status-pending {
+    background-color: #fef9c3; /* زرد */
+    color: #713f12;
+}
+
+.status-not_started {
+    background-color: #f3f4f6; /* خاکستری */
+    color: #4b5563;
+}
+
+.action-button {
+    background-color: #3b82f6;
+    color: #ffffff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem; 
+}
+.action-button:hover {
+    background-color: #2563eb;
+}
+
+.no-action-label {
+    color: #9ca3af;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+
+/* ==================================
+   استایل‌های پاپ‌آپ (Modal)
+   (بدون تغییر)
+   ================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+}
+
+.modal-overlay.active {
+    display: flex; 
+}
+
+.modal-content {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #1f2937;
+}
+
+.close-modal-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.modal-body p {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+.form-group textarea {
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    font-family: 'Vazirmatn', sans-serif; 
+    resize: vertical;
+}
+
+.modal-footer {
+    padding: 1.25rem 1.5rem;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-start; 
+    gap: 0.75rem;
+}
+
+.modal-button {
+    padding: 0.6rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.modal-button-primary {
+    background-color: #3b82f6;
+    color: white;
+}
+.modal-button-secondary {
+    background-color: #e5e7eb;
+    color: #374151;
+}

@@ -285,8 +285,131 @@ Route::get('/reports/demographic', function () {
 });
 
 Route::get('/reports/recruitment', function () {
-    return view('dashboard.reports.recruitment');
+
+    // ۱. آمار ماهانه
+    $monthly_stats = [
+        ['month' => 'فروردین', 'hired' => 5, 'left' => 3],
+        ['month' => 'اردیبهشت', 'hired' => 2, 'left' => 4],
+        ['month' => 'خرداد', 'hired' => 3, 'left' => 0],
+        ['month' => 'تیر', 'hired' => 2, 'left' => 7],
+        ['month' => 'مرداد', 'hired' => 4, 'left' => 2],
+        ['month' => 'شهریور', 'hired' => 4, 'left' => 1],
+        ['month' => 'مهر', 'hired' => 8, 'left' => 3],
+        ['month' => 'آبان', 'hired' => 2, 'left' => 2],
+    ];
+
+    // ۲. کانال‌های جذب
+    $channels = [
+        ['name' => 'جابینجا', 'cv_count' => 182977, 'rank' => 1, 'note' => 'بیشترین استخدام'],
+        ['name' => 'جاب ویژن', 'cv_count' => 18965, 'rank' => 2, 'note' => null],
+        ['name' => 'سایت تپسل', 'cv_count' => 1740, 'rank' => 3, 'note' => null],
+        ['name' => 'لینکدین', 'cv_count' => 876, 'rank' => 4, 'note' => null],
+    ];
+
+    // ۳. شاخص‌های کلیدی (KPIs)
+    $recent_month_data = end($monthly_stats);
+
+    $kpis = [
+        'recent_hires' => $recent_month_data['hired'],
+        'recent_leavers' => $recent_month_data['left'],
+        'net_growth_rate' => '+2.2%',
+        'time_to_fill' => '50 روز و 1 ساعت',
+        'time_to_hire' => '29 روز و 17 ساعت',
+        'avg_rejection_time' => '31 روز',
+        'top_leaver_source' => 'تپسل', // برای کارت "بیشترین خروج"
+    ];
+
+    // ۴. دیتای ورود و خروج بر اساس کسب‌وکار (جدید)
+    $business_unit_stats = [
+        ['name' => 'تپسل', 'hired' => 15, 'left' => 8], // رتبه ۱ در ورود و خروج
+        ['name' => 'فانتوری', 'hired' => 10, 'left' => 3], // رتبه ۲
+        ['name' => 'گروه هوش مصنوعی', 'hired' => 7, 'left' => 2], // رتبه ۳
+        ['name' => 'متریکس', 'hired' => 0, 'left' => 0], // رتبه ۴ با ۰ جذب و ۰ خروج
+        ['name' => 'مدیاهاوس', 'hired' => 1, 'left' => 3], // با ۱ جذب و ۳ خروج
+    ];
+
+
+    // ارسال تمام دیتاها به ویو
+    return view('dashboard.reports.recruitment', compact(
+        'kpis',
+        'monthly_stats',
+        'channels',
+        'business_unit_stats' // دیتای جدید
+    ));
 });
+
+Route::get('/reports/onboarding', function () {
+    
+    // ۱. دیتای فیک برای لیست افراد در حال آنبوردینگ
+    $onboarding_employees = [
+        [
+            'id' => 1,
+            'name' => 'سارا رضایی',
+            'hire_date' => '1403/07/01',
+            'department' => 'فنی - تیم موبایل',
+            'progress' => [
+                'month_1' => 'completed', // تکمیل شده
+                'month_2' => 'pending',   // در انتظار ثبت
+                'month_3' => 'not_started'// شروع نشده
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'علی اکبری',
+            'hire_date' => '1403/06/15',
+            'department' => 'مارکتینگ',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 3,
+            'name' => 'مریم قاسمی',
+            'hire_date' => '1403/08/05',
+            'department' => 'منابع انسانی',
+            'progress' => [
+                'month_1' => 'pending',
+                'month_2' => 'not_started',
+                'month_3' => 'not_started'
+            ]
+        ],
+        [
+            'id' => 4,
+            'name' => 'رضا محمودی',
+            'hire_date' => '1403/08/20',
+            'department' => 'فروش',
+            'progress' => [
+                'month_1' => 'not_started',
+                'month_2' => 'not_started',
+                'month_3' => 'not_started'
+            ]
+        ],
+    ];
+
+    // ۲. محاسبه آمار برای کارت‌های KPI
+    $kpis = [
+        'total_onboarding' => count($onboarding_employees),
+        'pending_month_1' => 0,
+        'pending_month_2' => 0,
+        'pending_month_3' => 0,
+    ];
+
+    // شمارش افراد نیازمند ثبت عملکرد
+    foreach ($onboarding_employees as $employee) {
+        if ($employee['progress']['month_1'] === 'pending') $kpis['pending_month_1']++;
+        if ($employee['progress']['month_2'] === 'pending') $kpis['pending_month_2']++;
+        if ($employee['progress']['month_3'] === 'pending') $kpis['pending_month_3']++;
+    }
+
+    // ۳. ارسال دیتا به ویو
+    return view('dashboard.reports.onboarding', [
+        'employees' => $onboarding_employees,
+        'kpis' => $kpis
+    ]);
+
+})->name('reports.onboarding');
 
 // PDF Health Check Routes
 Route::get('/admin/pdf-health-check', [App\Http\Controllers\PdfHealthCheckController::class, 'page'])

@@ -22,6 +22,8 @@
                                 href="/reports/demographic">گزارشات جمعیت شناختی</a></li>
                         <li class="{{ request()->is('reports/recruitment') ? 'active' : '' }}"><a
                                 href="/reports/recruitment">گزارشات جذب و استخدام</a></li>
+                                <li class="{{ request()->is('reports/recruitment') ? 'active' : '' }}"><a
+                                href="/reports/onboarding">رصد آنبورد</a></li>
                     </ul>
                 </li>
 
