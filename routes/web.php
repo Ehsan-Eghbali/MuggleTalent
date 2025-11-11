@@ -345,7 +345,7 @@ Route::get('/reports/onboarding', function () {
         [
             'id' => 1,
             'name' => 'سارا رضایی',
-            'hire_date' => '1403/07/01',
+            'hire_date' => '1404/06/01',
             'department' => 'فنی - تیم موبایل',
             'progress' => [
                 'month_1' => 'completed', // تکمیل شده
@@ -356,7 +356,7 @@ Route::get('/reports/onboarding', function () {
         [
             'id' => 2,
             'name' => 'علی اکبری',
-            'hire_date' => '1403/06/15',
+            'hire_date' => '1404/06/15',
             'department' => 'مارکتینگ',
             'progress' => [
                 'month_1' => 'completed',
@@ -365,9 +365,97 @@ Route::get('/reports/onboarding', function () {
             ]
         ],
         [
+            'id' => 2,
+            'name' => 'حسین اسکندری',
+            'hire_date' => '1404/06/15',
+            'department' => 'فروش - تپسل',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'سیده زهره بلادی ',
+            'hire_date' => '1404/06/15',
+            'department' => 'سلام سینما',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'سیده زهرا موسوی ',
+            'hire_date' => '1404/07/01',
+            'department' => 'فانتوری ',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'سیده زینب موسوی ',
+            'hire_date' => '1404/07/01',
+            'department' => 'فانتوری ',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'سید سعید موسوی ',
+            'hire_date' => '1404/07/01',
+            'department' => ' فانتوری',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'پرهام کاشی  ',
+            'hire_date' => '1404/07/01',
+            'department' => 'تپسل ',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'سمانه موذن   ',
+            'hire_date' => '1404/07/01',
+            'department' => 'تپسل ',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
+            'id' => 2,
+            'name' => 'شهاب قاضی',
+            'hire_date' => '1404/07/01',
+            'department' => 'سلام سینما',
+            'progress' => [
+                'month_1' => 'completed',
+                'month_2' => 'completed',
+                'month_3' => 'pending'
+            ]
+        ],
+        [
             'id' => 3,
-            'name' => 'مریم قاسمی',
-            'hire_date' => '1403/08/05',
+            'name' => ' پویا یزدانی',
+            'hire_date' => '1404/08/05',
             'department' => 'منابع انسانی',
             'progress' => [
                 'month_1' => 'pending',
@@ -377,8 +465,8 @@ Route::get('/reports/onboarding', function () {
         ],
         [
             'id' => 4,
-            'name' => 'رضا محمودی',
-            'hire_date' => '1403/08/20',
+            'name' => ' مروارید رعیت ',
+            'hire_date' => '1404/08/20',
             'department' => 'فروش',
             'progress' => [
                 'month_1' => 'not_started',
