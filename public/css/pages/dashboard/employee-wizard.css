@@ -1,0 +1,229 @@
+.employee-wizard-modal .modal-content {
+    max-width: 580px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.employee-wizard-modal .wizard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem 0;
+}
+
+.employee-wizard-modal .wizard-header h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #1e2a3b;
+}
+
+.employee-wizard-modal .modal-close {
+    position: static;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.employee-wizard-modal .modal-close:hover {
+    background-color: #f0f2f7;
+}
+
+.wizard-steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 1.25rem 2rem 1.5rem;
+    gap: 0;
+}
+
+.wizard-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 0 0 auto;
+    min-width: 100px;
+}
+
+.wizard-step-label {
+    font-size: 0.8rem;
+    color: #8b95a8;
+    font-weight: 600;
+    text-align: center;
+    transition: color 0.25s ease;
+}
+
+.wizard-step.active .wizard-step-label,
+.wizard-step.completed .wizard-step-label {
+    color: #1e2a3b;
+}
+
+.wizard-step-indicator {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: #eef1f7;
+    color: #8b95a8;
+    border: 2px solid #dde3ef;
+    transition: all 0.25s ease;
+}
+
+.wizard-step.active .wizard-step-indicator {
+    background: #4a67d4;
+    color: #fff;
+    border-color: #4a67d4;
+    box-shadow: 0 0 0 4px rgba(74, 103, 212, 0.15);
+}
+
+.wizard-step.completed .wizard-step-indicator {
+    background: #28a745;
+    color: #fff;
+    border-color: #28a745;
+}
+
+.wizard-step-connector {
+    flex: 0 0 80px;
+    height: 2px;
+    background: #dde3ef;
+    margin-top: 20px;
+    transition: background 0.25s ease;
+}
+
+.wizard-step-connector.completed {
+    background: #28a745;
+}
+
+.wizard-body {
+    padding: 0 1.5rem 1rem;
+}
+
+.wizard-panel {
+    display: none;
+    animation: wizardFadeIn 0.25s ease;
+}
+
+.wizard-panel.active {
+    display: block;
+}
+
+@keyframes wizardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wizard-panel-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #4a5568;
+    margin: 0 0 1.25rem;
+}
+
+.wizard-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.wizard-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.wizard-form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.wizard-form-group label .required {
+    color: #e53e3e;
+    margin-right: 2px;
+}
+
+.wizard-form-group input {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid #dde3ef;
+    border-radius: 8px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.wizard-form-group input:focus {
+    outline: none;
+    border-color: #4a67d4;
+    box-shadow: 0 0 0 3px rgba(74, 103, 212, 0.12);
+}
+
+.wizard-form-group input.is-invalid {
+    border-color: #e53e3e;
+}
+
+.wizard-form-group .field-error {
+    font-size: 0.78rem;
+    color: #e53e3e;
+    min-height: 1rem;
+}
+
+.wizard-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: 1px solid #eef1f7;
+    margin-top: 0.5rem;
+}
+
+.wizard-footer-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.wizard-hint {
+    font-size: 0.8rem;
+    color: #8b95a8;
+}
+
+.wizard-footer .btn-primary,
+.wizard-footer .btn-secondary,
+.wizard-footer .btn-success {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 520px) {
+    .wizard-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wizard-step-connector {
+        flex-basis: 40px;
+    }
+
+    .wizard-step {
+        min-width: 72px;
+    }
+
+    .wizard-step-label {
+        font-size: 0.72rem;
+    }
+}

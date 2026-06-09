@@ -6,6 +6,10 @@
 @endsection
 
 @section('dashboard_content')
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
 {{-- ساختار Header (اصلاح شده برای خواندن از آبجکت Eloquent) --}}
 <div class="profile-header">
     <div class="profile-main-info">

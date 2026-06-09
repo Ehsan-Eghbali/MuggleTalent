@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreemployeeRequest extends FormRequest
 {
@@ -22,23 +24,46 @@ class StoreemployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_number' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'full_name' => 'required|string|max:255',
-            'nickname' => 'required|string|max:255',
-            'position_chart' => 'required|string|max:255',
-            'team' => 'required|string|max:255',
-            'department' => 'required|string|max:255',
-            'direct_manager' => 'required|string|max:255',
-            'job_level' => 'required|in:S1,S2,S3,M1,M2,M3,J1,J2,J3',
-            'contract_type' => 'required|in:دورکاری,کارآموزی,آزمایشی,تمام وقت,پاره وقت',
-//            'cooperation_status' => 'required|in:تمام وقت,پاره وقت',
-            'work_status' => 'required|in:حضوری,دورکار,هیبریدی',
-            'formality' => 'required|in:رسمی,غیررسمی',
-            'phone_number' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'organization_email' => 'required|email|max:255',
+            'first_name'       => 'required|string|max:255',
+            'last_name'        => 'required|string|max:255',
+            'email'            => 'required|email|max:255',
+            'phone_number'     => 'required|string|max:20',
+            'national_code'    => 'required|string|max:20',
+            'department'       => 'required|string|max:255',
+            'position_chart'   => 'required|string|max:255',
+            'employee_number'  => 'required|string|max:255|unique:employees,employee_number',
+            'entry_date'       => 'required|date',
         ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'first_name.required'      => 'نام الزامی است.',
+            'last_name.required'       => 'نام خانوادگی الزامی است.',
+            'email.required'           => 'ایمیل الزامی است.',
+            'email.email'              => 'فرمت ایمیل معتبر نیست.',
+            'phone_number.required'    => 'شماره همراه الزامی است.',
+            'national_code.required'   => 'کد ملی الزامی است.',
+            'department.required'      => 'واحد الزامی است.',
+            'position_chart.required'  => 'سمت شغلی الزامی است.',
+            'employee_number.required' => 'شماره پرسنلی الزامی است.',
+            'employee_number.unique'   => 'این شماره پرسنلی قبلاً ثبت شده است.',
+            'entry_date.required'      => 'تاریخ شروع همکاری الزامی است.',
+            'entry_date.date'          => 'تاریخ شروع همکاری معتبر نیست.',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        throw new HttpResponseException(
+            redirect()
+                ->route('employees.index')
+                ->withInput()
+                ->withErrors($validator)
+        );
     }
 }
