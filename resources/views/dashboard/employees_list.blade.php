@@ -8,9 +8,25 @@
 @section('dashboard_content')
 <div class="page-header">
     <h1><i class="fas fa-users-cog page-icon"></i> مشاهده لیست همکاران</h1>
-    <button type="button" id="open-employee-wizard-btn" class="btn-primary">
-        <i class="fas fa-plus-circle"></i> افزودن همکار جدید
-    </button>
+    <button
+    type="button"
+    id="open-employee-wizard-btn"
+    class="continue-application">
+
+    <div>
+        <div class="pencil"></div>
+        <div class="folder">
+            <div class="top">
+                <svg viewBox="0 0 24 27">
+                    <path d="M1,0 L23,0 C23.5522847,0 24,.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C.44771525,27 0,26.5522847 0,26 L0,1 C0,.44771525 .44771525,0 1,0Z"></path>
+                </svg>
+            </div>
+            <div class="paper"></div>
+        </div>
+    </div>
+
+    افزودن همکار جدید
+</button>
 </div>
 
 @if(session('success'))

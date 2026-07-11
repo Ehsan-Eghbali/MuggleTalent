@@ -14,7 +14,7 @@
 <div class="profile-header">
     <div class="profile-main-info">
         <div class="profile-picture-wrapper">
-            <img src="https://avatar.iran.liara.run/public/boy" alt="عکس پروفایل" class="profile-picture">
+            <img src="https://api.dicebear.com/10.x/micah/svg" alt="عکس پروفایل" class="profile-picture">
         </div>
         <div class="profile-text-info">
             <h2>{{ $employee->full_name ?? '' }}</h2>
@@ -40,12 +40,12 @@
 
 {{-- ساختار تب‌ها حفظ شده است --}}
 <nav class="profile-tabs">
-    <a href="#" class="tab-item active" data-tab="personal-info">اطلاعات شخصی</a>
-    <a href="#" class="tab-item" data-tab="employment-info">اطلاعات شغلی</a>
-    <a href="#" class="tab-item" data-tab="financial-info">مدیریت مالی</a>
-    <a href="#" class="tab-item" data-tab="training">آموزش</a>
-    <a href="#" class="tab-item" data-tab="performance">مدیریت عملکرد</a>
-    <a href="#" class="tab-item" data-tab="history">سوابق پرسنلی</a>
+    <a href="#" class="tab-item active" data-tab="personal-info">اطلاعات شخصی 🪪</a>
+    <a href="#" class="tab-item" data-tab="employment-info">اطلاعات شغلی 💼</a>
+    <a href="#" class="tab-item" data-tab="financial-info">مدیریت مالی 📊</a>
+    <a href="#" class="tab-item" data-tab="training">آموزش 📚️</a>
+    <a href="#" class="tab-item" data-tab="performance">مدیریت عملکرد 📋️</a>
+    <a href="#" class="tab-item" data-tab="history">سوابق پرسنلی 📂</a>
 </nav>
 
 <div class="profile-tab-content">
@@ -53,7 +53,7 @@
     {{-- تب اطلاعات شخصی (نهایی شده) --}}
     <div id="personal-info-pane" class="tab-pane active">
         <div class="profile-form-container">
-            <h3 class="form-title">اطلاعات شخصی</h3>
+            <h3 class="form-title">اطلاعات شخصی 🪪</h3>
             <form action="{{ route('employees.update', $employee->id) }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -124,7 +124,7 @@
     {{-- تب اطلاعات شغلی (نهایی شده) --}}
     <div id="employment-info-pane" class="tab-pane">
         <div class="profile-form-container">
-            <h3 class="form-title">اطلاعات شغلی</h3>
+            <h3 class="form-title">اطلاعات شغلی 💼</h3>
             <form action="{{ route('employees.update', $employee->id) }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -223,7 +223,7 @@
     {{-- تب مدیریت مالی (نهایی شده) --}}
     <div id="financial-info-pane" class="tab-pane">
         <div class="profile-form-container">
-            <h3 class="form-title">اطلاعات حساب‌های بانکی</h3>
+            <h3 class="form-title">اطلاعات حساب‌های بانکی 📊</h3>
             <form action="#" method="POST">
                 <div class="form-grid">
                     <div class="form-group"><label for="official_bank_name">نام بانک حساب رسمی</label><input type="text" id="official_bank_name" value="{{ optional($employee->bankAccount)->bank_branch_name ?? '' }}"></div>
@@ -244,7 +244,7 @@
     {{-- تب آموزش --}}
     <div id="training-pane" class="tab-pane">
         <div class="profile-form-container">
-            <h3 class="form-title">سوابق دوره‌های آموزشی</h3>
+            <h3 class="form-title">سوابق دوره‌های آموزشی 📚️</h3>
             <form action="#" method="POST" enctype="multipart/form-data">
                 <div class="form-group"><label for="training_notes">یادداشت جدید دوره آموزشی</label><textarea id="training_notes" rows="6" placeholder="جزئیات دوره آموزشی، نمرات، بازخورد و..."></textarea></div>
                 <div class="file-upload-wrapper"><label for="training_attachment_file" class="btn-secondary"><i class="fas fa-paperclip"></i> پیوست مدرک یا فایل</label><input type="file" id="training_attachment_file" name="training_attachment_file" style="display: none;"><span id="training-file-name-display">هیچ فایلی انتخاب نشده است.</span></div>
@@ -269,7 +269,7 @@
     {{-- تب سوابق پرسنلی --}}
     <div id="history-pane" class="tab-pane">
         <div class="profile-form-container">
-            <h3 class="form-title">یادداشت‌ها و سوابق پرسنلی</h3>
+            <h3 class="form-title">یادداشت‌ها و سوابق پرسنلی 📂</h3>
             <form action="#" method="POST" enctype="multipart/form-data">
                 <div class="form-group"><label for="history_notes">یادداشت جدید</label><textarea id="history_notes" rows="6" placeholder="یادداشت‌های مربوط به عملکرد، اتفاقات مهم و... را اینجا وارد کنید."></textarea></div>
                 <div class="file-upload-wrapper"><label for="attachment_file" class="btn-secondary"><i class="fas fa-paperclip"></i> پیوست فایل</label><input type="file" id="attachment_file" name="attachment_file" style="display: none;"><span id="file-name-display">هیچ فایلی انتخاب نشده است.</span></div>
