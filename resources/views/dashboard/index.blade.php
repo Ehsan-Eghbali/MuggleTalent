@@ -1,167 +1,269 @@
 @extends('layouts.dashboard')
 
 @section('dashboard_content')
-<div class="page-header">
-    <h1><i class="fas fa-box"></i> جعبه ابزار</h1>
-</div>
 
-<div class="dashboard-main-content">
-    {{-- بخش اصلی ابزارها --}}
-    <div class="dashboard-tools-section">
-        {{-- نوار دسته‌بندی ابزارها --}}
-        <div class="tool-categories">
-            <a href="#" class="category-tab active" data-category="daily">ابزار روزمره</a>
-            <a href="#" class="category-tab" data-category="google">ابزارهای گوگل</a>
-            <a href="#" class="category-tab" data-category="hr">ابزارهای HR</a>
+<div class="toolbox-page">
+
+    {{-- HERO --}}
+    <div class="toolbox-hero">
+
+        <div class="hero-top-tabs">
+            <button class="hero-tab active" data-category="daily">
+                همه ابزارها
+            </button>
+            <button class="hero-tab" data-category="google">
+                ابزارهای گوگل
+            </button>
+            <button class="hero-tab" data-category="hr">
+                ابزارهای HR
+            </button>
         </div>
 
-        {{-- بخش نمایش ابزارهای روزمره --}}
+        <div class="hero-content">
+
+            {{-- New Text Container for Better Alignment --}}
+            <div class="hero-info-text">
+                <span class="hero-badge">
+                    همه ابزارها در یک جا
+                </span>
+
+                <h1>
+                    جعبه ابزار هوشمند شما
+                </h1>
+
+                <p>
+                    ابزارهای کاربردی روزمره را سریع، ساده و هوشمندانه استفاده کنید.
+                </p>
+
+                <div class="hero-search">
+                    <input
+                        type="text"
+                        id="toolSearch"
+                        placeholder="جستجوی ابزار مورد نظر ..."
+                    >
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fas fa-bolt"></i>
+                        سریع و آسان
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-mouse-pointer"></i>
+                        دسترسی یک کلیک
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        بروز و مطمئن
+                    </div>
+                </div>
+            </div>
+
+            {{-- Image Container (Now Fixed) --}}
+            {{-- <div class="hero-image">
+                <img src="{{ asset('images/toolbox.png') }}" alt="Toolbox illustration">
+            </div> --}}
+
+        </div>
+
+    </div>
+
+    {{-- TOOLS --}}
+
+    <div class="tools-wrapper">
+
+        <div class="section-title">
+            <h3>
+                <i class="fas fa-th-large"></i>
+                ابزارهای پرکاربرد
+            </h3>
+        </div>
+
+        {{-- DAILY - Fixed Card Content for Better Rendering --}}
         <div class="tools-grid-section" id="tools-daily">
-            <div class="tools-grid-header">
-                <i class="fas fa-wrench"></i>
-                <span>ابزار روزمره</span>
-            </div>
             <div class="tools-grid">
-                <a href="https://www.whatsapp.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/whatsapp.png') }}" alt="واتساپ"></div>
-                    <span class="tool-name">واتساپ</span>
+                <a href="https://www.whatsapp.com/" class="tool-card searchable-tool" target="_blank">
+                    <img src="{{ asset('images/icons/whatsapp.png') }}" alt="WhatsApp">
+                    <h4>واتساپ</h4>
+                    <span>ارسال پیام</span>
                 </a>
-                <a href="https://telegram.org/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/telegram.png') }}" alt="تلگرام"></div>
-                    <span class="tool-name">تلگرام</span>
+
+                <a href="https://telegram.org/" class="tool-card searchable-tool" target="_blank">
+                    <img src="{{ asset('images/icons/telegram.png') }}" alt="Telegram">
+                    <h4>تلگرام</h4>
+                    <span>پیامرسان سریع</span>
                 </a>
-                <a href="https://www.linkedin.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/linkedin.png') }}" alt="لینکدین"></div>
-                    <span class="tool-name">لینکدین</span>
+
+                <a href="https://www.linkedin.com/" class="tool-card searchable-tool" target="_blank">
+                    <img src="{{ asset('images/icons/linkedin.png') }}" alt="Linkedin">
+                    <h4>لینکدین</h4>
+                    <span>شبکه سازی حرفه ای</span>
                 </a>
-                <a href="https://chatgpt.com" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/gpt.png') }}" alt="Chat GPT"></div>
-                    <span class="tool-name">Chat GPT</span>
+
+                <a href="https://chatgpt.com" class="tool-card searchable-tool" target="_blank">
+                    <img src="{{ asset('images/icons/gpt.png') }}" alt="ChatGPT">
+                    <h4>ChatGPT</h4>
+                    <span>دستیار هوشمند</span>
                 </a>
-                <a href="https://evernote.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/evernote.png') }}" alt="evernote"></div>
-                    <span class="tool-name">evernote</span>
+
+                <a href="https://evernote.com/" class="tool-card searchable-tool" target="_blank">
+                    <img src="{{ asset('images/icons/evernote.png') }}" alt="Evernote">
+                    <h4>Evernote</h4>
+                    <span>یادداشت برداری</span>
                 </a>
-                <a href="https://mail.zoho.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/zoho.png') }}" alt="ZOHO"></div>
-                    <span class="tool-name">ZOHO</span>
+
+                <a href="https://mail.zoho.com/" class="tool-card searchable-tool" target="_blank">
+                    <img src="{{ asset('images/icons/zoho.png') }}" alt="Zoho">
+                    <h4>ZOHO</h4>
+                    <span>ابزار کسب و کار</span>
                 </a>
-                <a href="https://smallpdf.com/merge-pdf" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/pdf.png') }}" alt="ابزار PDF"></div>
-                    <span class="tool-name">ابزار PDF</span>
+
+                {{-- Hidden Tools --}}
+                <a href="https://smallpdf.com/merge-pdf" class="tool-card searchable-tool" target="_blank" style="display:none">
+                    <img src="{{ asset('images/icons/pdf.png') }}">
+                    <h4>ابزار PDF</h4>
+                    <span>مدیریت فایل PDF</span>
                 </a>
-                <a href="https://www.bahesab.ir/time/conversion/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/data.png') }}" alt=" تبدیل تاریخ"></div>
-                    <span class="tool-name">تبدیل تاریخ</span>
+                <a href="https://www.bahesab.ir/time/conversion/" class="tool-card searchable-tool" target="_blank" style="display:none">
+                    <img src="{{ asset('images/icons/data.png') }}">
+                    <h4>تبدیل تاریخ</h4>
+                    <span>شمسی و میلادی</span>
                 </a>
-                <a href="https://ezgif.com" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/cpng.png') }}" alt="تبدیل تصویر"></div>
-                    <span class="tool-name">تبدیل تصویر</span>
+                <a href="https://ezgif.com" class="tool-card searchable-tool" target="_blank" style="display:none">
+                    <img src="{{ asset('images/icons/cpng.png') }}">
+                    <h4>تبدیل تصویر</h4>
+                    <span>PNG JPG WEBP</span>
                 </a>
             </div>
         </div>
 
-        {{-- بخش نمایش ابزارهای گوگل (مخفی اولیه) --}}
-        <div class="tools-grid-section" id="tools-google" style="display: none;">
-            <div class="tools-grid-header">
-                <i class="fab fa-google"></i>
-                <span>ابزارهای گوگل</span>
-            </div>
+        {{-- GOOGLE --}}
+        <div class="tools-grid-section" id="tools-google" style="display:none">
             <div class="tools-grid">
                 <a href="https://docs.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/google-docs.png') }}" alt="گوگل داکس"></div>
-                    <span class="tool-name">Docs</span>
+                    <img src="{{ asset('images/icons/google-docs.png') }}">
+                    <h4>Docs</h4>
+                    <span>اسناد آنلاین</span>
                 </a>
                 <a href="https://sheets.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/google-sheets.png') }}" alt="گوگل شیتز"></div>
-                    <span class="tool-name">Sheet</span>
+                    <img src="{{ asset('images/icons/google-sheets.png') }}">
+                    <h4>Sheets</h4>
+                    <span>صفحات گسترده</span>
                 </a>
                 <a href="https://forms.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/google-forms.png') }}" alt="گوگل فرمز"></div>
-                    <span class="tool-name">Form</span>
-                </a>
-                <a href="https://translate.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/google.png') }}" alt="گوگل ترنسلیت"></div>
-                    <span class="tool-name">Translate</span>
+                    <img src="{{ asset('images/icons/google-forms.png') }}">
+                    <h4>Forms</h4>
+                    <span>فرم ساز</span>
                 </a>
                 <a href="https://drive.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/drive.png') }}" alt="گوگل درایو"></div>
-                    <span class="tool-name">Drive</span>
+                    <img src="{{ asset('images/icons/drive.png') }}">
+                    <h4>Drive</h4>
+                    <span>فضای ابری</span>
                 </a>
                 <a href="https://calendar.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/google-calendar.png') }}" alt="گوگل کلندر"></div>
-                    <span class="tool-name">Calender</span>
-                </a>
-                <a href="https://meet.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/meet.png') }}" alt="گوگل میت"></div>
-                    <span class="tool-name">Meet</span> 
+                    <img src="{{ asset('images/icons/google-calendar.png') }}">
+                    <h4>Calendar</h4>
+                    <span>تقویم</span>
                 </a>
                 <a href="https://mail.google.com/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/gmail.png') }}" alt="گوگل جیمیل"></div>
-                    <span class="tool-name">Gmail</span>
+                    <img src="{{ asset('images/icons/gmail.png') }}">
+                    <h4>Gmail</h4>
+                    <span>ایمیل</span>
                 </a>
             </div>
         </div>
 
-        {{-- بخش نمایش ابزارهای HR (مخفی اولیه) --}}
-        <div class="tools-grid-section" id="tools-hr" style="display: none;">
-            <div class="tools-grid-header">
-                <i class="fas fa-users-cog"></i>
-                <span>ابزارهای منابع انسانی</span>
-            </div>
+        {{-- HR --}}
+        <div class="tools-grid-section" id="tools-hr" style="display:none">
             <div class="tools-grid">
-                <a href="https://hrcando.ir/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/hrcando.svg') }}" alt="کندو استخدام"></div>
-                    <span class="tool-name">کندو</span>
-                </a>
                 <a href="https://jobinja.ir/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/jobinja.jpg') }}" alt="جابینجا"></div>
-                    <span class="tool-name">جابینجا</span>
+                    <img src="{{ asset('images/icons/jobinja.jpg') }}">
+                    <h4>جابینجا</h4>
+                    <span>استخدام</span>
+                </a>
+                <a href="https://hrcando.ir/" class="tool-card" target="_blank">
+                    <img src="{{ asset('images/icons/hrcando.svg') }}">
+                    <h4>کندو</h4>
+                    <span>جذب نیرو</span>
                 </a>
                 <a href="https://maktabkhooneh.org/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/maktabkhooneh.jpg') }}" alt="مکتب خونه"></div>
-                    <span class="tool-name">مکتب خونه</span>
-                </a>
-                <a href="https://organization.quby.ir/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/quby.svg') }}" alt="کیوبی"></div>
-                    <span class="tool-name">کیوبی</span>
+                    <img src="{{ asset('images/icons/maktabkhooneh.jpg') }}">
+                    <h4>مکتب خونه</h4>
+                    <span>آموزش</span>
                 </a>
                 <a href="https://porsline.ir/" class="tool-card" target="_blank">
-                    <div class="tool-icon"><img src="{{ asset('images/icons/posline.png') }}" alt="پرسلاین"></div>
-                    <span class="tool-name">پرسلاین</span>
+                    <img src="{{ asset('images/icons/posline.png') }}">
+                    <h4>پرسلاین</h4>
+                    <span>نظرسنجی</span>
                 </a>
             </div>
         </div>
+
     </div>
+
 </div>
+
 @endsection
 
 @section('scripts')
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // --- منطق تب‌ها برای نمایش ابزارها ---
-    const categoryTabs = document.querySelectorAll('.category-tab');
-    const toolSections = document.querySelectorAll('.tools-grid-section');
 
-    categoryTabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetCategory = this.dataset.category;
+document.addEventListener('DOMContentLoaded', function(){
 
-            // حذف کلاس active از همه تب‌ها و اضافه کردن به تب فعلی
-            categoryTabs.forEach(t => t.classList.remove('active'));
+    const tabs = document.querySelectorAll('.hero-tab');
+
+    tabs.forEach(tab=>{
+        tab.addEventListener('click',function(){
+            const category = this.dataset.category;
+            tabs.forEach(t=>t.classList.remove('active'));
             this.classList.add('active');
 
-            // مخفی کردن همه بخش‌های ابزار و نمایش بخش هدف
-            toolSections.forEach(section => {
-                if (section.id === `tools-${targetCategory}`) {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = 'none';
-                }
+            document.querySelectorAll('.tools-grid-section')
+            .forEach(section=>{
+                section.style.display='none';
             });
+
+            document.getElementById(
+                'tools-'+category
+            ).style.display='block';
+
         });
     });
+
+    const search = document.getElementById('toolSearch');
+    const allToolsGrid = document.querySelector('#tools-daily .tools-grid');
+    const searchableTools = document.querySelectorAll('.searchable-tool');
+
+    search.addEventListener('keyup',function(){
+        const value = this.value.trim().toLowerCase();
+        
+        // Hide all daily tools by default for search results
+        searchableTools.forEach(card => card.style.display = 'none');
+
+        // Search within all daily tools (including hidden ones)
+        searchableTools.forEach(card => {
+            const toolName = card.querySelector('h4').innerText.toLowerCase();
+            const toolDesc = card.querySelector('span').innerText.toLowerCase();
+
+            if (value === '' || toolName.includes(value) || toolDesc.includes(value)) {
+                // If search matches or input is empty, reset display
+                card.style.display = 'flex';
+            }
+        });
+        
+        // Hide only the first row if search input is empty (back to default state)
+        if (value === '') {
+             searchableTools.forEach((card, index) => {
+                 if (index > 5) {
+                    card.style.display = 'none';
+                 }
+             });
+        }
+    });
 });
+
 </script>
+
 @endsection

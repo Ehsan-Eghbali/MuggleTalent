@@ -1,17 +1,10 @@
+/* Dashboard Main Layout */
 .welcome-title {
     text-align: center;
     margin-top: 5rem;
     font-weight: bold;
 }
-/* public/css/dashboard.css */
 
-/* public/css/dashboard.css */
-
-/* ... استایل‌های قبلی ... */
-
-/* ---------------------------------- */
-/* استایل‌های داشبورد جدید (جعبه ابزار) */
-/* ---------------------------------- */
 .dashboard-main-content {
     display: flex;
     gap: 2rem;
@@ -23,15 +16,16 @@
 }
 
 .dashboard-side-widgets {
-    width: 300px; /* عرض ثابت برای ویجت‌های کناری */
+    width: 300px;
     flex-shrink: 0;
 }
 
+/* Tool Categories Tabs (Side Menu) - NOT USED IN HERO */
 .tool-categories {
     display: flex;
     gap: 0.75rem;
     margin-bottom: 2rem;
-    flex-wrap: wrap; /* برای واکنش‌گرا بودن */
+    flex-wrap: wrap;
 }
 
 .category-tab {
@@ -43,7 +37,7 @@
     font-weight: bold;
     font-size: 0.9rem;
     transition: all 0.2s;
-    white-space: nowrap; /* جلوگیری از شکستن متن */
+    white-space: nowrap;
 }
 
 .category-tab:hover {
@@ -56,6 +50,7 @@
     box-shadow: 0 4px 8px rgba(74, 103, 212, 0.3);
 }
 
+/* tools-grid-section (Main Daily Tools Container) */
 .tools-grid-section {
     background-color: #fff;
     border-radius: 12px;
@@ -74,51 +69,245 @@
     margin-bottom: 1.5rem;
 }
 
+/* Main Grid for Tools */
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
 }
 
+/* toolbox-page and HERO */
+.toolbox-page{
+    padding: 20px;
+}
+
+.toolbox-hero{
+    background: linear-gradient(135deg, #f2f4ff, #f8f3ff);
+    border-radius: 30px;
+    padding: 30px;
+    margin-bottom: 25px;
+}
+
+/* Hero Tabs (Top-Right) */
+.hero-top-tabs{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.hero-tab{
+    border: none;
+    background: #fff;
+    padding: 10px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+    font-family: inherit; /* Prevent default font */
+}
+
+.hero-tab.active{
+    background: #5865ff;
+    color: #fff;
+}
+
+/* Hero Content Area */
+.hero-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    background-image: url("http://127.0.0.1:8000/images/toolbox.png");
+
+}
+
+/* hero-info-text (Container for Title, Desc, Search, Features) */
+.hero-info-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px; /* Some padding for search input to breathe */
+}
+
+.hero-badge{
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: #ece8ff;
+    color: #5865ff;
+    margin-bottom: 15px;
+    width: fit-content;
+}
+
+.hero-info-text h1{
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.hero-info-text p{
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+/* Hero Search Input */
+.hero-search{
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.hero-search input{
+    width: 50%;
+    height: 55px;
+    border: none;
+    border-radius: 16px;
+    padding: 0 50px 0 15px; /* RTL padding for icon */
+    font-family: inherit;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.hero-search i{
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    color: #888;
+}
+
+/* Hero Features (Under Search) */
+.hero-features{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.feature-item{
+    background: #fff;
+    border-radius: 30px;
+    padding: 10px 15px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Hero Image Container (FIXED) */
+.hero-image{
+    flex: 0 0 420px; /* Logical fixed width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 280px; /* Consistent height */
+    overflow: hidden; /* Important to contain the image */
+}
+
+.hero-image img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* IMPORTANT: Fixes cropping and aspect ratio */
+}
+
+/* Tools Wrapper (Lower Section) */
+.tools-wrapper{
+    background: #fff;
+    border-radius: 25px;
+    padding: 25px;
+}
+
+.section-title{
+    margin-bottom: 25px;
+}
+
+/* Tool Card (RE-DEFINED TO WORK IN BOTH SECTIONS) */
 .tool-card {
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid #edf0f7;
+    border-radius: 22px;
+    height: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    background-color: #f8faff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    text-decoration: none;
-    color: #333;
-    transition: all 0.2s;
+    transition: .3s;
+    overflow: hidden; /* Container for elements inside */
+    padding: 10px;
 }
 
 .tool-card:hover {
-    background-color: #eef3ff;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, .08);
 }
 
+/* Standardizing Tool Icons (Images or Font Icons) */
+.tool-card img,
+.tool-card .tool-icon img {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.tool-card h4 {
+    color: #111;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.tool-card span {
+    color: #777;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* Prevent style bleed from old/other classes */
+.tool-card .tool-name {
+     text-align: center;
+}
 .tool-card .tool-icon {
     font-size: 2.5rem;
     margin-bottom: 0.75rem;
-    width: 50px; /* برای یکسان سازی اندازه آیکون‌ها */
+    width: 50px;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-/* استایل‌های اختصاصی برای آیکون‌های تصویری (مثل واتساپ) */
 .tool-card .tool-icon img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* حفظ نسبت تصویر */
+    object-fit: contain;
 }
 
-.tool-card .tool-name {
-    font-size: 0.9rem;
-    text-align: center;
-    font-weight: bold;
+
+/* Responsive Layout */
+@media(max-width:768px){
+
+    .hero-content{
+        flex-direction: column-reverse;
+    }
+
+    .hero-image {
+        flex: 0 0 auto; /* Let it define width */
+        width: 100%;
+        margin-top: 20px;
+        height: 250px; /* Reduced height on mobile */
+    }
+    
+    .hero-image img {
+        height: 100%;
+    }
+
+    .hero-info-text h1{
+        font-size: 26px;
+    }
+
+    .tools-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hero-features {
+        justify-content: center;
+    }
 }
